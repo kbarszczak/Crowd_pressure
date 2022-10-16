@@ -5,4 +5,6 @@ module simulation.crowed_pressure {
 
     opens view to javafx.fxml;
     exports view;
+    exports view.contoller;
+    opens view.contoller to javafx.fxml;
 }
