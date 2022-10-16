@@ -1,9 +1,9 @@
-package simulation.crowed_pressure;
+package view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class SimulationController {
     @FXML
     private Label welcomeText;
 

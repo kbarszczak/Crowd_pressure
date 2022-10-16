@@ -3,6 +3,6 @@ module simulation.crowed_pressure {
     requires javafx.fxml;
 
 
-    opens simulation.crowed_pressure to javafx.fxml;
-    exports simulation.crowed_pressure;
+    opens view to javafx.fxml;
+    exports view;
 }
