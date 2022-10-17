@@ -18,6 +18,11 @@ public class SimulationApplication extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        try{
+
+            launch();
+        }catch (Exception exception){
+            System.out.println("Unknown exception occurred. Details: " + exception.getMessage() + ". Application shuts down.");
+        }
     }
 }
