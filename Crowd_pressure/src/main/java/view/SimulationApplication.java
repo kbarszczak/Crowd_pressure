@@ -15,11 +15,12 @@ public class SimulationApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+        // todo: initialize view and the layout here
     }
 
     public static void main(String[] args) {
         try{
-
+            // todo: initialize simulation here
             launch();
         }catch (Exception exception){
             System.out.println("Unknown exception occurred. Details: " + exception.getMessage() + ". Application shuts down.");

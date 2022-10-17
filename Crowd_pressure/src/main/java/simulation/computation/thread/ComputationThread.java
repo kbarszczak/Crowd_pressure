@@ -15,7 +15,6 @@ public class ComputationThread extends Thread{
     private final Board board;
 
     private List<Agent> computationAgents;
-    private boolean isReady;
 
     public ComputationThread(PhysicalModel physicalModel, List<Heuristic> heuristics, List<Agent> allAgents, Board board) {
         this.physicalModel = physicalModel;
@@ -23,7 +22,6 @@ public class ComputationThread extends Thread{
         this.allAgents = allAgents;
         this.board = board;
         this.computationAgents = null;
-        this.isReady = true;
     }
 
     public void setComputationAgents(List<Agent> agents) {
@@ -34,18 +32,17 @@ public class ComputationThread extends Thread{
         return computationAgents;
     }
 
-    public boolean isReady() {
-        return isReady;
-    }
-
     @Override
     public void run() {
-        isReady = false;
         try{
-            // todo: write computation thread logic here
+            for(Agent agent : computationAgents){
+                physicalModel.apply(agent, allAgents, board);
+                for(Heuristic heuristic : heuristics){
+                    heuristic.apply(agent, allAgents, board);
+                }
+            }
         }catch (Exception exception){
             System.out.println("Computation thread \"" + Thread.currentThread().getName() + "\" is dead. Details: " + exception.getMessage());
         }
-        isReady = true;
     }
 }
