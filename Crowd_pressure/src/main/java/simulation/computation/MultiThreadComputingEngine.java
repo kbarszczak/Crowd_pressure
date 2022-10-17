@@ -22,5 +22,8 @@ public class MultiThreadComputingEngine implements ComputingEngine{
         for(ComputationThread thread : threadController.getThreads()){
             thread.start();
         }
+        for(ComputationThread thread : threadController.getThreads()){
+            thread.join();
+        }
     }
 }
