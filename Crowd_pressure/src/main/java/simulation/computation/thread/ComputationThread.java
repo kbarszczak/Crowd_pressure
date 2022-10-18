@@ -1,5 +1,7 @@
 package simulation.computation.thread;
 
+import simulation.computation.task.SimulationTask;
+import simulation.computation.task.Task;
 import simulation.heuristic.Heuristic;
 import simulation.model.Agent;
 import simulation.model.Board;
@@ -35,12 +37,8 @@ public class ComputationThread extends Thread{
     @Override
     public void run() {
         try{
-            for(Agent agent : computationAgents){
-                physicalModel.apply(agent, allAgents, board);
-                for(Heuristic heuristic : heuristics){
-                    heuristic.apply(agent, allAgents, board);
-                }
-            }
+            Task task = new SimulationTask(physicalModel, heuristics, allAgents, computationAgents, board);
+            task.execute();
         }catch (Exception exception){
             System.out.println("Computation thread \"" + Thread.currentThread().getName() + "\" is dead. Details: " + exception.getMessage());
         }

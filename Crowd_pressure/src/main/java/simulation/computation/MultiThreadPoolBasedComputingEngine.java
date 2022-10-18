@@ -1,6 +1,5 @@
-package simulation.computation.thread;
+package simulation.computation;
 
-import simulation.computation.ComputingEngine;
 import simulation.heuristic.Heuristic;
 import simulation.model.Agent;
 import simulation.model.Board;
