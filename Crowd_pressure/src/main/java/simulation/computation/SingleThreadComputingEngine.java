@@ -16,4 +16,7 @@ public class SingleThreadComputingEngine implements ComputingEngine{
         Task task = new SimulationTask(physicalModel, heuristics, agents, agents, board);
         task.execute();
     }
+
+    @Override
+    public void close() throws Exception {}
 }

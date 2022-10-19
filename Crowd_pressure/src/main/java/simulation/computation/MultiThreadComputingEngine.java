@@ -45,4 +45,9 @@ public class MultiThreadComputingEngine implements ComputingEngine {
         }
         cdl.await();
     }
+
+    @Override
+    public void close() throws Exception {
+        executor.shutdown();
+    }
 }

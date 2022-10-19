@@ -7,7 +7,7 @@ import simulation.physics.PhysicalModel;
 
 import java.util.List;
 
-public interface ComputingEngine {
+public interface ComputingEngine extends AutoCloseable{
 
     /**
      * The method that is responsible to do all the necessary calculations
