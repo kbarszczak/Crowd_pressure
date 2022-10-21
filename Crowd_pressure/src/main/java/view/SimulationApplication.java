@@ -6,21 +6,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import simulation.Simulation;
-import simulation.computation.ComputingEngine;
-import simulation.computation.MultiThreadComputingEngine;
-import simulation.heuristic.DirectionHeuristic;
-import simulation.heuristic.DistanceHeuristic;
-import simulation.initializer.FixedAgentInitializer;
-import simulation.initializer.FixedBoardInitializer;
-import simulation.physics.SocialForcePhysicalModel;
 import view.controller.SimulationController;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 
 public class SimulationApplication extends Application {
     @Override
