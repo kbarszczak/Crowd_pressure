@@ -1,9 +1,12 @@
 package view.controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
 
+import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -12,7 +15,19 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 
-public class SimulationController {
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import simulation.Simulation;
+import view.drawer.SimulationDrawer;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class SimulationController implements Initializable {
+
+    private final Timeline timeline;
+    private SimulationDrawer drawer;
+    private Simulation simulation;
 
     @FXML
     private Button startButton, stopButton, resetButton, exitButton;
@@ -29,28 +44,92 @@ public class SimulationController {
     @FXML
     private Canvas simulationCanvas;
 
-    public void start(ActionEvent event){
-        // todo: start the simulation
+    public SimulationController() {
+        this.timeline = new Timeline(new KeyFrame(Duration.millis(30), this::step));
+        this.timeline.setCycleCount(Timeline.INDEFINITE);
+        this.simulation = null;
     }
 
-    public void stop(ActionEvent event){
-        // todo: stop the simulation
+    private void step(ActionEvent event){
+        try{
+            simulation.step(); // do all the necessary calculations in the simulation
+            drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation); // draw the simulation state on the canvas. In other words, visualize the simulations state
+        }catch (Exception exception){
+            // todo: handle step exception
+        }
     }
 
-    public void reset(ActionEvent event){
-        // todo: reset the simulation
+    @FXML
+    private void start(){
+        try{
+            timeline.play();
+        }catch (Exception exception){
+            // todo: handle start exception
+        }
     }
 
-    public void exit(ActionEvent event){
-        // todo: exit app
+    @FXML
+    private void stop(){
+        try{
+            timeline.stop();
+        }catch (Exception exception){
+            // todo: handle stop exception
+        }
     }
 
-    public void changeHeuristics(ActionEvent event){
-        // todo: write change heuristics code
+    @FXML
+    private void reset(){
+        try{
+            // todo: reset the simulation
+        }catch (Exception exception){
+            // todo: handle reset exception
+        }
     }
 
-    public void changeEngine(ActionEvent event){
-        // todo: write change engine code
+    @FXML
+    private void exit(){
+
+        try{
+            Stage stage = (Stage) exitButton.getScene().getWindow();
+            stage.close();
+        }catch (Exception exception){
+            // todo: handle exit exception
+        }
+    }
+
+    @FXML
+    private void changeHeuristics(ActionEvent event){
+        try{
+            // todo: write change heuristics code
+        }catch (Exception exception){
+            // todo: handle change heuristic exception
+        }
+    }
+
+    @FXML
+    private void changeEngine(ActionEvent event){
+        try{
+            // todo: write change engine code
+        }catch (Exception exception){
+            // todo: handle change engine exception
+        }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try{
+            // todo: initialize simulation here
+        }catch (Exception exception){
+            // todo: handle initialization exception
+        }
+    }
+
+    public void close() {
+        try{
+            simulation.close();
+        }catch (Exception exception){
+            System.out.println("Could not close the simulation. Details: " + exception.getMessage());
+        }
     }
 
 }

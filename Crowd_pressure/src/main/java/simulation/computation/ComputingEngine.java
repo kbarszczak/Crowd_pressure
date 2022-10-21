@@ -5,9 +5,10 @@ import simulation.model.Agent;
 import simulation.model.Board;
 import simulation.physics.PhysicalModel;
 
+import java.io.Closeable;
 import java.util.List;
 
-public interface ComputingEngine extends AutoCloseable{
+public interface ComputingEngine extends Closeable {
 
     /**
      * The method that is responsible to do all the necessary calculations

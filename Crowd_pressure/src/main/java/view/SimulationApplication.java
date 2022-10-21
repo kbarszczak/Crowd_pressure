@@ -2,8 +2,8 @@ package view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import simulation.Simulation;
@@ -14,21 +14,27 @@ import simulation.heuristic.DistanceHeuristic;
 import simulation.initializer.FixedAgentInitializer;
 import simulation.initializer.FixedBoardInitializer;
 import simulation.physics.SocialForcePhysicalModel;
+import view.controller.SimulationController;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 public class SimulationApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("simulation-view.fxml")));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("simulation-view.fxml"));
+        BorderPane root = loader.load();
+        SimulationController controller = loader.getController();
         String css = Objects.requireNonNull(getClass().getResource("simulation-view.css")).toExternalForm();
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(css);
         stage.setTitle("Crowd pressure");
         stage.setScene(scene);
+        stage.setOnHidden(p -> controller.close());
         stage.show();
     }
 
@@ -44,10 +50,11 @@ public class SimulationApplication extends Application {
                     new FixedAgentInitializer() // the object that is responsible for initializing the agent
             );
             // run/start the simulation
-            simulation.start();
+            //simulation.start();
             launch(args);
         }catch (Exception exception){
             System.out.println("Unknown exception occurred. Details: " + exception.getMessage() + ". Application shuts down.");
+            exception.printStackTrace();
         }
     }
 }

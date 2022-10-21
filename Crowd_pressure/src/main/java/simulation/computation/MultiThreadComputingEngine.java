@@ -7,6 +7,7 @@ import simulation.model.Agent;
 import simulation.model.Board;
 import simulation.physics.PhysicalModel;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -47,7 +48,7 @@ public class MultiThreadComputingEngine implements ComputingEngine {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws IOException {
         executor.shutdown();
     }
 }

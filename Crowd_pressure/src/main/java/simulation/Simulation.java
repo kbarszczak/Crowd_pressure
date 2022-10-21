@@ -1,10 +1,5 @@
 package simulation;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.util.Duration;
-
 import simulation.computation.ComputingEngine;
 import simulation.heuristic.Heuristic;
 import simulation.initializer.AgentInitializer;
@@ -13,12 +8,13 @@ import simulation.model.Agent;
 import simulation.model.Board;
 import simulation.physics.PhysicalModel;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Simulation {
+public class Simulation implements Closeable {
 
-    private final Timeline timeline;
     private List<Agent> agents;
     private Board board;
     private PhysicalModel physicalModel;
@@ -26,8 +22,6 @@ public class Simulation {
     private ComputingEngine engine;
 
     public Simulation(PhysicalModel physicalModel, List<Heuristic> heuristics, ComputingEngine engine, BoardInitializer boardInitializer, int agentCount, AgentInitializer agentInitializer){
-        this.timeline = new Timeline(new KeyFrame(Duration.millis(30), this::step));
-        this.timeline.setCycleCount(Timeline.INDEFINITE);
         this.physicalModel = physicalModel;
         this.heuristics = heuristics;
         this.engine = engine;
@@ -56,7 +50,12 @@ public class Simulation {
     }
 
     public void setEngine(ComputingEngine engine) {
-        this.engine = engine;
+        try{
+            this.engine.close();
+            this.engine = engine;
+        }catch (Exception exception){
+            System.out.println("Could not change the computing engine");
+        }
     }
 
     public List<Agent> getAgents() {
@@ -67,19 +66,16 @@ public class Simulation {
         return board;
     }
 
-    public void start(){
-        timeline.play();
-    }
-
-    public void stop(){
-        timeline.stop();
-    }
-
-    private void step(ActionEvent actionEvent){
+    public void step(){
         try{
             engine.compute(agents, board, physicalModel, heuristics);
         }catch (Exception exception){
             System.out.println("Computation error. Details: " + exception.getMessage());
         }
+    }
+
+    @Override
+    public void close() throws IOException {
+        engine.close();
     }
 }

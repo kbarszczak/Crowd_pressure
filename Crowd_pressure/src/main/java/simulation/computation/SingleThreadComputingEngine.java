@@ -7,6 +7,7 @@ import simulation.model.Agent;
 import simulation.model.Board;
 import simulation.physics.PhysicalModel;
 
+import java.io.IOException;
 import java.util.List;
 
 public class SingleThreadComputingEngine implements ComputingEngine{
@@ -18,5 +19,5 @@ public class SingleThreadComputingEngine implements ComputingEngine{
     }
 
     @Override
-    public void close() throws Exception {}
+    public void close() throws IOException {}
 }
