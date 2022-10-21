@@ -42,7 +42,7 @@
       </FlowPane>
    </top>
    <bottom>
-      <FlowPane fx:id="optionsFlowPane" alignment="CENTER" orientation="VERTICAL" prefHeight="90.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <FlowPane fx:id="optionsFlowPane" alignment="CENTER" orientation="VERTICAL" prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <CheckBox fx:id="directionCheckBox" mnemonicParsing="false" onAction="#changeHeuristics" selected="true" text="Use direction heuristics" />
             <CheckBox fx:id="distanceCheckBox" mnemonicParsing="false" onAction="#changeHeuristics" selected="true" text="Use distance heuristics" />

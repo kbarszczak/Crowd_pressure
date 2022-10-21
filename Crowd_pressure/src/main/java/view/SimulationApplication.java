@@ -25,32 +25,25 @@ import java.util.ResourceBundle;
 public class SimulationApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+        // prepare the FXML loader
         FXMLLoader loader = new FXMLLoader(getClass().getResource("simulation-view.fxml"));
+        // load the view
         BorderPane root = loader.load();
+        // get the controller for the loaded view
         SimulationController controller = loader.getController();
+        // load css stylesheet
         String css = Objects.requireNonNull(getClass().getResource("simulation-view.css")).toExternalForm();
 
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(css);
-        stage.setTitle("Crowd pressure");
-        stage.setScene(scene);
-        stage.setOnHidden(p -> controller.close());
-        stage.show();
+        Scene scene = new Scene(root); // create scene that visualizes GUI
+        scene.getStylesheets().add(css); // set up stylesheet
+        stage.setTitle("Crowd pressure"); // set up the stage title
+        stage.setScene(scene); // set up main view/scene
+        stage.setOnHidden(p -> controller.close()); // run the controller close method when the stage is closing
+        stage.show(); // show the view
     }
 
     public static void main(String[] args) {
-        try(ComputingEngine engine = new MultiThreadComputingEngine()){
-            // create/set up simulation
-            Simulation simulation = new Simulation(
-                    new SocialForcePhysicalModel(), // the physical model used in the simulation
-                    List.of(new DistanceHeuristic(), new DirectionHeuristic()), // the list of heuristics used in the simulation (don't pass null value)
-                    engine, // the computing engine responsible for doing all the calculations
-                    new FixedBoardInitializer(), // the object that is responsible for initializing the board
-                    100,
-                    new FixedAgentInitializer() // the object that is responsible for initializing the agent
-            );
-            // run/start the simulation
-            //simulation.start();
+        try{
             launch(args);
         }catch (Exception exception){
             System.out.println("Unknown exception occurred. Details: " + exception.getMessage() + ". Application shuts down.");

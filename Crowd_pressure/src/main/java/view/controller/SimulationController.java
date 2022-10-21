@@ -18,9 +18,18 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulation.Simulation;
+import simulation.computation.MultiThreadComputingEngine;
+import simulation.heuristic.DirectionHeuristic;
+import simulation.heuristic.DistanceHeuristic;
+import simulation.initializer.FixedAgentInitializer;
+import simulation.initializer.FixedBoardInitializer;
+import simulation.physics.SocialForcePhysicalModel;
+import view.drawer.SimpleSimulationDrawer;
 import view.drawer.SimulationDrawer;
 
 import java.net.URL;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class SimulationController implements Initializable {
@@ -119,6 +128,16 @@ public class SimulationController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try{
             // todo: initialize simulation here
+            simulation = new Simulation(
+                    new SocialForcePhysicalModel(), // the physical model used in the simulation
+                    List.of(new DistanceHeuristic(), new DirectionHeuristic()), // the list of heuristics used in the simulation (don't pass null value)
+                    new MultiThreadComputingEngine(), // the computing engine responsible for doing all the calculations
+                    new FixedBoardInitializer(), // the object that is responsible for initializing the board
+                    100,
+                    new FixedAgentInitializer() // the object that is responsible for initializing the agent
+            );
+            drawer = new SimpleSimulationDrawer();
+            drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);
         }catch (Exception exception){
             // todo: handle initialization exception
         }
