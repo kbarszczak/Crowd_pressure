@@ -28,7 +28,6 @@ import view.drawer.SimpleSimulationDrawer;
 import view.drawer.SimulationDrawer;
 
 import java.net.URL;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 
