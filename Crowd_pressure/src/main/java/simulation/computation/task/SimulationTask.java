@@ -26,10 +26,10 @@ public class SimulationTask implements Task{
     @Override
     public void execute() throws Exception {
         for(Agent agent : computationAgents){
-            physicalModel.apply(agent, allAgents, board);
             for(Heuristic heuristic : heuristics){
                 heuristic.apply(agent, allAgents, board);
             }
+            physicalModel.apply(agent, allAgents, board);
         }
     }
 }

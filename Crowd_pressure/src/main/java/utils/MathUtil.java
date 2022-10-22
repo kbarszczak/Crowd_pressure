@@ -9,8 +9,7 @@ public class MathUtil {
     private MathUtil(){}
 
     public static double calculateMutualAngle(Point point1, Point point2){ // TODO: write tests
-        double tan = Math.tan(Math.abs(point1.getX() - point2.getX()) / (double)Math.abs(point1.getY() - point2.getY()));
-        double angle = Math.atan(tan);
+        double angle = Math.atan(Math.abs(point1.getX() - point2.getX()) / (double)Math.abs(point1.getY() - point2.getY()));
         double incrementor = 0;
 
         if(point1.getX() - point2.getX() >= 0 && point1.getY() - point2.getY() < 0){
@@ -35,7 +34,7 @@ public class MathUtil {
             if(agent == obstacle) continue;
             double mutualAngle = MathUtil.calculateMutualAngle(agent.getPosition(), obstacle.getPosition());
             double distance = MathUtil.getDistance(agent.getPosition(), obstacle.getPosition()); // todo: calculate accurate distance
-            double relaxationAngle = Math.atan(Math.tan(obstacle.getAgentRadius() / distance));
+            double relaxationAngle = Math.atan(obstacle.getAgentRadius() / distance);
 
             if(angleToCheck >= mutualAngle - relaxationAngle && angleToCheck <= mutualAngle + relaxationAngle ){
                 distanceToCollision = Math.min(distance, distanceToCollision);
@@ -66,6 +65,23 @@ public class MathUtil {
         return distanceToCollision;
     }
 
-    public static Vector
+    public static Vector add(Vector vector1, Vector vector2){
+        double verticalComponent1 = Math.sin(vector1.getAngle()) * vector1.getValue();
+        double horizontalComponent1 = Math.cos(vector1.getAngle()) * vector1.getValue();
+        double verticalComponent2 = Math.sin(vector2.getAngle()) * vector2.getValue();
+        double horizontalComponent2 = Math.cos(vector2.getAngle()) * vector2.getValue();
+        return new Vector(
+                Math.sqrt(Math.pow(verticalComponent1+verticalComponent2, 2) + Math.pow(horizontalComponent1+horizontalComponent2, 2)),
+                Math.atan((verticalComponent1+verticalComponent2) / (horizontalComponent1+horizontalComponent2))
+        );
+    }
+
+    public static Vector subtract(Vector vector1, Vector vector2){
+        Vector negative = new Vector(
+                vector2.getValue(),
+                vector2.getAngle() + Math.PI > 2*Math.PI ? vector2.getAngle() - Math.PI : vector2.getAngle() + Math.PI
+        );
+        return MathUtil.add(vector1, negative);
+    }
 
 }
