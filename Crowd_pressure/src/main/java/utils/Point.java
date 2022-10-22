@@ -25,4 +25,12 @@ public class Point {
     public void setY(int y) {
         this.y = y;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Point point){
+            return point.x == x && point.y == y;
+        }
+        return false;
+    }
 }
