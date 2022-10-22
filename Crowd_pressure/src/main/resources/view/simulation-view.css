@@ -6,6 +6,14 @@
     -fx-border-radius: 2px;
 }
 
+.check-box,
+.radio-button,
+.button {
+    -fx-padding: 5px 10px;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+}
+
 .button:hover{
     -fx-background-color: #CCCCCC;
 }

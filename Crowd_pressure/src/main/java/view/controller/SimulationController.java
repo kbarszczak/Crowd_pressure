@@ -21,7 +21,7 @@ import simulation.Simulation;
 import simulation.computation.MultiThreadComputingEngine;
 import simulation.heuristic.DirectionHeuristic;
 import simulation.heuristic.DistanceHeuristic;
-import simulation.initializer.FixedAgentInitializer;
+import simulation.initializer.RandomAgentsInitializer;
 import simulation.initializer.FixedBoardInitializer;
 import simulation.physics.SocialForcePhysicalModel;
 import view.drawer.SimpleSimulationDrawer;
@@ -131,9 +131,8 @@ public class SimulationController implements Initializable {
                     new SocialForcePhysicalModel(), // the physical model used in the simulation
                     List.of(new DistanceHeuristic(), new DirectionHeuristic()), // the list of heuristics used in the simulation (don't pass null value)
                     new MultiThreadComputingEngine(), // the computing engine responsible for doing all the calculations
-                    new FixedBoardInitializer(), // the object that is responsible for initializing the board
-                    100,
-                    new FixedAgentInitializer() // the object that is responsible for initializing the agent
+                    new FixedBoardInitializer((int)simulationCanvas.getWidth(), (int)simulationCanvas.getHeight()), // the object that is responsible for initializing the board
+                    new RandomAgentsInitializer(50) // the object that is responsible for initializing the agent
             );
             drawer = new SimpleSimulationDrawer();
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);

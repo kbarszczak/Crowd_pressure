@@ -23,6 +23,10 @@ public class SimulationApplication extends Application {
         // load css stylesheet
         String css = Objects.requireNonNull(getClass().getResource("simulation-view.css")).toExternalForm();
 
+        // set minimal size of the window
+        stage.setMinHeight(449);
+        stage.setMinWidth(616);
+
         Scene scene = new Scene(root); // create scene that visualizes GUI
         scene.getStylesheets().add(css); // set up stylesheet
         stage.setTitle("Crowd pressure"); // set up the stage title

@@ -2,15 +2,16 @@ package simulation;
 
 import simulation.computation.ComputingEngine;
 import simulation.heuristic.Heuristic;
-import simulation.initializer.AgentInitializer;
+import simulation.initializer.AgentsInitializer;
 import simulation.initializer.BoardInitializer;
+import simulation.initializer.EmptyBoardInitializer;
+import simulation.initializer.RandomAgentsInitializer;
 import simulation.model.Agent;
 import simulation.model.Board;
 import simulation.physics.PhysicalModel;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation implements Closeable {
@@ -21,23 +22,25 @@ public class Simulation implements Closeable {
     private List<Heuristic> heuristics;
     private ComputingEngine engine;
 
-    public Simulation(PhysicalModel physicalModel, List<Heuristic> heuristics, ComputingEngine engine, BoardInitializer boardInitializer, int agentCount, AgentInitializer agentInitializer){
+    public Simulation(PhysicalModel physicalModel, List<Heuristic> heuristics, ComputingEngine engine, BoardInitializer boardInitializer, AgentsInitializer agentInitializer){
         this.physicalModel = physicalModel;
         this.heuristics = heuristics;
         this.engine = engine;
+
+        // todo: check the constructor
 
         try{
             this.board = boardInitializer.initialize();
         }catch (Exception exception){
             System.out.println("Exception during board initialization. Empty board was created. Details: " + exception.getMessage());
-            this.board = new Board();
+            try{this.board = new EmptyBoardInitializer().initialize();} catch (Exception ignore){}
         }
 
         try{
-            this.agents = new ArrayList<>();
-            for(int i=0; i<agentCount; ++i) this.agents.add(agentInitializer.initialize());
+            this.agents = agentInitializer.initialize(this.board);
         }catch (Exception exception){
             System.out.println("Exception during agents initialization. Empty agent list was created. Details: " + exception.getMessage());
+            try{this.agents = new RandomAgentsInitializer(10).initialize(this.board);} catch (Exception ignore){}
         }
     }
 

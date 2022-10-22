@@ -11,29 +11,17 @@
 
 <!-- this fxml file is a view for the application-->
 
-<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controller.SimulationController">
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controller.SimulationController">
    <top>
-      <FlowPane fx:id="menuFlowPane" alignment="CENTER" prefHeight="40.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <FlowPane fx:id="menuFlowPane" alignment="CENTER" prefWrapLength="0.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="startButton" mnemonicParsing="false" onAction="#start" text="Start">
-               <FlowPane.margin>
-                  <Insets left="5.0" right="5.0" />
-               </FlowPane.margin>
             </Button>
             <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stop" text="Stop">
-               <FlowPane.margin>
-                  <Insets left="5.0" right="5.0" />
-               </FlowPane.margin>
             </Button>
             <Button fx:id="resetButton" mnemonicParsing="false" onAction="#reset" text="Reset">
-               <FlowPane.margin>
-                  <Insets left="5.0" right="5.0" />
-               </FlowPane.margin>
             </Button>
             <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exit" text="Exit">
-               <FlowPane.margin>
-                  <Insets left="5.0" right="5.0" />
-               </FlowPane.margin>
             </Button>
          </children>
          <opaqueInsets>
@@ -42,7 +30,7 @@
       </FlowPane>
    </top>
    <bottom>
-      <FlowPane fx:id="optionsFlowPane" alignment="CENTER" orientation="VERTICAL" prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <FlowPane fx:id="optionsFlowPane" alignment="CENTER" prefWrapLength="0.0" BorderPane.alignment="CENTER">
          <children>
             <CheckBox fx:id="directionCheckBox" mnemonicParsing="false" onAction="#changeHeuristics" selected="true" text="Use direction heuristics" />
             <CheckBox fx:id="distanceCheckBox" mnemonicParsing="false" onAction="#changeHeuristics" selected="true" text="Use distance heuristics" />
@@ -55,6 +43,6 @@
       </FlowPane>
    </bottom>
    <center>
-      <Canvas fx:id="simulationCanvas" height="269.0" width="606.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="simulationCanvas" height="300.0" width="600.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
