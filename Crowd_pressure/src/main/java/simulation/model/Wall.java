@@ -1,7 +1,5 @@
 package simulation.model;
 
-import utils.Point;
-
 public class Wall {
 
     private Point startPoint;

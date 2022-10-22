@@ -1,8 +1,6 @@
 package utils;
 
-import simulation.model.Agent;
-import simulation.model.Board;
-import simulation.model.Wall;
+import simulation.model.*;
 
 import java.util.List;
 
@@ -67,5 +65,7 @@ public class MathUtil {
 
         return distanceToCollision;
     }
+
+    public static Vector
 
 }

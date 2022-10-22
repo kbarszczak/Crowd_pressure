@@ -10,5 +10,10 @@ public class SocialForcePhysicalModel implements PhysicalModel{
     @Override
     public void apply(Agent agent, List<Agent> allAgents, Board board) throws Exception {
         // todo: implement physics here
+
+
+
+
+
     }
 }

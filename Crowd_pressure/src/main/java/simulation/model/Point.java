@@ -1,4 +1,4 @@
-package utils;
+package simulation.model;
 
 public class Point {
 

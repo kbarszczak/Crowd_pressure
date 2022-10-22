@@ -2,7 +2,7 @@ package simulation.initializer;
 
 import simulation.model.Agent;
 import simulation.model.Board;
-import utils.Point;
+import simulation.model.Point;
 
 import java.util.ArrayList;
 import java.util.List;

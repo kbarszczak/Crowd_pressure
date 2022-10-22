@@ -3,7 +3,6 @@ package simulation.heuristic;
 import simulation.model.Agent;
 import simulation.model.Board;
 import utils.MathUtil;
-import utils.Point;
 
 import java.util.List;
 
@@ -13,8 +12,8 @@ public class DirectionHeuristic implements Heuristic{
     public void apply(Agent agent, List<Agent> allAgents, Board board) throws Exception {
         double step = 1;
         double bestDistance = agent.getAgentMaxVisionDistance();
-        double bestAngle = agent.getAngle();
-        for(double angle = (agent.getAngle()-agent.getAgentVisionAngle()); angle <=  (agent.getAngle()+agent.getAgentVisionAngle()); angle += step){
+        double bestAngle = agent.getVelocity().getAngle();
+        for(double angle = (agent.getVelocity().getAngle()-agent.getAgentVisionAngle()); angle <=  (agent.getVelocity().getAngle()+agent.getAgentVisionAngle()); angle += step){
             if(angle < 0) angle += (2 * Math.PI);
 
             double distance = calculateDistance(angle, agent, allAgents, board);
@@ -23,7 +22,7 @@ public class DirectionHeuristic implements Heuristic{
                 bestAngle = angle;
             }
         }
-        agent.setNextAngle(bestAngle);
+        agent.getDesiredVelocity().setAngle(bestAngle);
     }
 
     private double calculateDistance(double angleToCheck, Agent agent, List<Agent> allAgents, Board board){

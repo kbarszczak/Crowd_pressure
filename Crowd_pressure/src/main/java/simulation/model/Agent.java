@@ -1,20 +1,16 @@
 package simulation.model;
 
 import utils.MathUtil;
-import utils.Point;
 
 public class Agent {
-
-    /**
-     * All angles in radian
-     */
 
     // modifiable
     private int index;
     private boolean inMove;
-    private double []velocity;
-    private double []angle; // relative to cartesian
     private Point []position;
+    private Vector []acceleration;
+    private Vector []velocity;
+    private Vector desiredVelocity;
 
     // not modifiable
     private final double agentMass;
@@ -29,9 +25,10 @@ public class Agent {
         // modifiable
         this.index = 0;
         this.inMove = false;
-        this.velocity = new double[]{agentComfortableSpeed, 0};
-        this.angle = new double[]{MathUtil.calculateMutualAngle(initPosition, agentDesiredPosition), 0};
-        this.position = new Point[]{initPosition, null};
+        this.position = new Point[]{initPosition, new Point(initPosition.getX(), initPosition.getY())};
+        this.acceleration = new Vector[]{new Vector(0, 0), new Vector(0, 0)};
+        this.velocity = new Vector[]{new Vector(agentComfortableSpeed, MathUtil.calculateMutualAngle(initPosition, agentDesiredPosition)), new Vector(0, 0)};
+        this.desiredVelocity = new Vector(0, 0);
 
         // not modifiable
         this.agentMass = agentMass;
@@ -47,16 +44,32 @@ public class Agent {
         return inMove;
     }
 
-    public double getVelocity() {
+    public Vector getVelocity() {
         return velocity[index];
     }
 
-    public double getAngle() {
-        return angle[index];
+    public Vector getNextVelocity(){
+        return velocity[(index+1)%2];
+    }
+
+    public Vector getDesiredVelocity() {
+        return desiredVelocity;
+    }
+
+    public Vector getAcceleration() {
+        return acceleration[index];
+    }
+
+    public Vector getNextAcceleration(){
+        return acceleration[(index+1)%2];
     }
 
     public Point getPosition() {
         return position[index];
+    }
+
+    public Point getNextPosition(){
+        return position[(index+1)%2];
     }
 
     public double getAgentMass() {
@@ -85,18 +98,6 @@ public class Agent {
 
     public Point getAgentDesiredPosition() {
         return agentDesiredPosition;
-    }
-
-    public void setNextVelocity(double velocity) {
-        this.velocity[(index+1)%2] = velocity;
-    }
-
-    public void setNextAngle(double angle) {
-        this.angle[(index+1)%2] = angle;
-    }
-
-    public void setNextPosition(Point position) {
-        this.position[(index+1)%2] = position;
     }
 
     public void prepareToNextStep(){
