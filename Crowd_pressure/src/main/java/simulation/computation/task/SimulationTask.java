@@ -26,6 +26,7 @@ public class SimulationTask implements Task{
     @Override
     public void execute() throws Exception {
         for(Agent agent : computationAgents){
+            if(agent.isStopped()) continue;
             for(Heuristic heuristic : heuristics){
                 heuristic.apply(agent, allAgents, board);
             }

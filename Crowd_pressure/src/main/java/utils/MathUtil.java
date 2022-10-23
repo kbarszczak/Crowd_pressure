@@ -10,27 +10,16 @@ public class MathUtil {
 
     private MathUtil(){}
 
+    public static double calculateLineCoefficient(Point point1, Point point2){
+        return (point1.getY() - point2.getY()) / (double)(point1.getX() - point2.getX());
+    }
+
     public static double calculateMutualAngle(Point point1, Point point2){
-        double angle = Math.atan(Math.abs(point1.getX() - point2.getX()) / (double)Math.abs(point1.getY() - point2.getY()));
-        double incrementor = 0;
-
-        if(point1.getX() - point2.getX() >= 0 && point1.getY() - point2.getY() < 0){
-            incrementor = Math.PI * 3/4;
-        }else if(point1.getX() - point2.getX() < 0 && point1.getY() - point2.getY() >= 0){
-            incrementor = Math.PI / 2;
-        }else if(point1.getX() - point2.getX() < 0 && point1.getY() - point2.getY() < 0){
-            incrementor = Math.PI;
-        }
-
-        return angle + incrementor;
+        return Math.atan(calculateLineCoefficient(point1, point2));
     }
 
     public static double calculateDistanceBetweenPoints(Point point1, Point point2){
         return Math.sqrt(Math.pow(point1.getX() - point2.getX(), 2) + Math.pow(point1.getY() - point2.getY(), 2));
-    }
-
-    public static double calculateLineCoefficient(Point point1, Point point2){
-        return (point1.getY() - point2.getY()) / (double)(point1.getX() - point2.getX());
     }
 
     public static Point getCrossingPoint(Point sourcePoint, double sourceAngle, Point straightStart, Point straightEnd){
@@ -77,25 +66,6 @@ public class MathUtil {
         }
 
         return distanceToCollision;
-    }
-
-    public static Vector add(Vector vector1, Vector vector2){
-        double verticalComponent1 = Math.sin(vector1.getAngle()) * vector1.getValue();
-        double horizontalComponent1 = Math.cos(vector1.getAngle()) * vector1.getValue();
-        double verticalComponent2 = Math.sin(vector2.getAngle()) * vector2.getValue();
-        double horizontalComponent2 = Math.cos(vector2.getAngle()) * vector2.getValue();
-        return new Vector(
-                Math.sqrt(Math.pow(verticalComponent1+verticalComponent2, 2) + Math.pow(horizontalComponent1+horizontalComponent2, 2)),
-                Math.atan((verticalComponent1+verticalComponent2) / (horizontalComponent1+horizontalComponent2))
-        );
-    }
-
-    public static Vector subtract(Vector vector1, Vector vector2){
-        Vector negative = new Vector(
-                vector2.getValue(),
-                vector2.getAngle() + Math.PI > 2*Math.PI ? vector2.getAngle() - Math.PI : vector2.getAngle() + Math.PI
-        );
-        return MathUtil.add(vector1, negative);
     }
 
 }

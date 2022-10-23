@@ -6,10 +6,10 @@ public class Agent {
 
     // modifiable
     private int index;
-    private boolean inMove;
-    private Point []position;
-    private Vector []velocity;
-    private Vector desiredVelocity;
+    private boolean isStopped;
+    private final Point []position;
+    private final Vector []velocity;
+    private final Vector desiredVelocity;
 
     // not modifiable
     private final double agentMass;
@@ -23,9 +23,8 @@ public class Agent {
     public Agent(Point initPosition, double agentMass, double agentRadius, double agentComfortableSpeed, double agentVisionAngle, double agentMaxVisionDistance, double agentRelaxationTime, Point agentDesiredPosition) {
         // modifiable
         this.index = 0;
-        this.inMove = false;
+        this.isStopped = false;
         this.position = new Point[]{initPosition, new Point(initPosition.getX(), initPosition.getY())};
-        //this.acceleration = new Vector[]{new Vector(0, 0), new Vector(0, 0)};
         this.velocity = new Vector[]{new Vector(agentComfortableSpeed, MathUtil.calculateMutualAngle(initPosition, agentDesiredPosition)), new Vector(0, 0)};
         this.desiredVelocity = new Vector(0, 0);
 
@@ -39,16 +38,12 @@ public class Agent {
         this.agentDesiredPosition = agentDesiredPosition;
     }
 
-    public boolean isInMove() {
-        return inMove;
+    public boolean isStopped() {
+        return isStopped;
     }
 
     public Vector getVelocity() {
         return velocity[index];
-    }
-
-    public Vector getNextVelocity(){
-        return velocity[(index+1)%2];
     }
 
     public Vector getDesiredVelocity() {
@@ -57,10 +52,6 @@ public class Agent {
 
     public Point getPosition() {
         return position[index];
-    }
-
-    public Point getNextPosition(){
-        return position[(index+1)%2];
     }
 
     public double getAgentMass() {
@@ -101,5 +92,9 @@ public class Agent {
 
     public void prepareToNextStep(){
         index = (index+1) % 2;
+    }
+
+    public void stop() {
+        isStopped = true;
     }
 }

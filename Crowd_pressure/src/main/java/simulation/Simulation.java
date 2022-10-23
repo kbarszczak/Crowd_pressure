@@ -27,8 +27,6 @@ public class Simulation implements Closeable {
         this.heuristics = heuristics;
         this.engine = engine;
 
-        // todo: check the constructor
-
         try{
             this.board = boardInitializer.initialize();
         }catch (Exception exception){
@@ -40,7 +38,7 @@ public class Simulation implements Closeable {
             this.agents = agentInitializer.initialize(this.board);
         }catch (Exception exception){
             System.out.println("Exception during agents initialization. Empty agent list was created. Details: " + exception.getMessage());
-            try{this.agents = new RandomAgentsInitializer(10).initialize(this.board);} catch (Exception ignore){}
+            try{this.agents = new RandomAgentsInitializer(50).initialize(this.board);} catch (Exception ignore){}
         }
     }
 

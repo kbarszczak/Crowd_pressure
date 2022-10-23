@@ -26,6 +26,28 @@ public class Vector {
         this.angle = angle;
     }
 
+    public Vector add(Vector vector){
+        return new Vector(
+                Math.sqrt(Math.pow(value, 2) + Math.pow(vector.value, 2) + 2*value*vector.value*Math.cos(vector.angle - angle)),
+                Math.atan2(vector.value*Math.sin(vector.angle - angle), value + vector.value*Math.cos(vector.angle - angle))
+        );
+    }
+
+    public Vector subtract(Vector vector){
+        return new Vector(
+                Math.sqrt(Math.pow(value, 2) + Math.pow(vector.value, 2) - 2*value*vector.value*Math.cos(angle - vector.angle)),
+                Math.atan((value*Math.sin(angle) - vector.value*Math.sin(vector.angle)) / (value*Math.cos(angle) - vector.value*Math.cos(vector.angle)))
+        );
+    }
+
+    public Vector multiplyByConstantCopy(double constant){
+        return new Vector(value*constant, angle);
+    }
+
+    public void multiplyByConstant(double constant){
+        value *= constant;
+    }
+
     public Point toPoint() {
         return new Point((int)(Math.cos(angle) * value), (int)(Math.sin(angle) * value));
     }
@@ -37,4 +59,5 @@ public class Vector {
         }
         return false;
     }
+
 }

@@ -53,7 +53,7 @@ public class SimulationController implements Initializable {
     private Canvas simulationCanvas;
 
     public SimulationController() {
-        this.timeline = new Timeline(new KeyFrame(Duration.millis(30), this::step));
+        this.timeline = new Timeline(new KeyFrame(Duration.millis(50), this::step));
         this.timeline.setCycleCount(Timeline.INDEFINITE);
         this.simulation = null;
     }

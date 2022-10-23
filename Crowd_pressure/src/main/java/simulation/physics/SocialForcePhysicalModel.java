@@ -17,30 +17,31 @@ public class SocialForcePhysicalModel implements PhysicalModel{
 
     @Override
     public void apply(Agent agent, List<Agent> allAgents, Board board) throws Exception {
+        if(agent.isStopped() || agent.getPosition().equals(agent.getAgentDesiredPosition())) {
+            agent.stop();
+            return;
+        }
+
         // 1st
-        Vector acceleration = MathUtil.subtract(agent.getDesiredVelocity(), agent.getVelocity());
-        acceleration.setValue(acceleration.getValue() / agent.getAgentRelaxationTime());
+        Vector acceleration = agent.getDesiredVelocity().subtract(agent.getVelocity());
+        acceleration.multiplyByConstant(1 / agent.getAgentRelaxationTime());
 
         // 2nd
         Vector obstacleImpactAcceleration = calculateAgentImpactForce(agent, allAgents);
-        obstacleImpactAcceleration.setValue(obstacleImpactAcceleration.getValue() / agent.getAgentMass());
-        acceleration =  MathUtil.add(acceleration, obstacleImpactAcceleration);
+        obstacleImpactAcceleration.multiplyByConstant(1 / agent.getAgentMass());
+        acceleration =  acceleration.add(obstacleImpactAcceleration);
 
         // 3rd
         Vector wallImpactAcceleration = calculateWallImpactForce(agent, board.getWalls());
-        wallImpactAcceleration.setValue(wallImpactAcceleration.getValue() / agent.getAgentMass());
-        acceleration = MathUtil.add(acceleration, wallImpactAcceleration);
-        System.out.println("Acceleration change: " + acceleration.getValue() + " " + acceleration.getAngle());
+        wallImpactAcceleration.multiplyByConstant(1 / agent.getAgentMass());
+        acceleration = acceleration.add(wallImpactAcceleration);
 
         // apply changes on the agent
-        System.out.println(timeQuantum);
-        Vector velocityChange = new Vector(acceleration.getValue() * timeQuantum, acceleration.getAngle());
-        System.out.println("Velocity change: " + velocityChange.getValue() + " " + velocityChange.getAngle());
-        agent.setNextVelocity(MathUtil.add(agent.getVelocity(), velocityChange));
-        Vector positionChange = new Vector(velocityChange.getValue() * timeQuantum, velocityChange.getAngle());
-        agent.setNextPosition(MathUtil.add(agent.getPosition().toVector(), positionChange).toPoint());
+        Vector velocityChange = acceleration.multiplyByConstantCopy(timeQuantum);
+        agent.setNextVelocity(agent.getVelocity().add(velocityChange));
 
-        System.out.println();
+        Vector positionChange = velocityChange.multiplyByConstantCopy(timeQuantum);
+        agent.setNextPosition(agent.getPosition().add(positionChange.toPoint()));
     }
 
     private Vector calculateAgentImpactForce(Agent agent, List<Agent> allAgents){
@@ -54,7 +55,7 @@ public class SocialForcePhysicalModel implements PhysicalModel{
                         (agent.getAgentRadius() + obstacle.getAgentRadius() - distance) * scaleCoefficient,
                         MathUtil.calculateMutualAngle(agent.getPosition(), obstacle.getPosition())
                 );
-                totalForce = MathUtil.add(totalForce, forceVector);
+                totalForce = totalForce.add(forceVector);
             }
         }
 
@@ -71,7 +72,7 @@ public class SocialForcePhysicalModel implements PhysicalModel{
                         (agent.getAgentRadius() - distance) * scaleCoefficient,
                         MathUtil.calculateMutualAngle(agent.getPosition(), crossingPoint)
                 );
-                totalForce = MathUtil.add(totalForce, forceVector);
+                totalForce = totalForce.add(forceVector);
             }
         }
 

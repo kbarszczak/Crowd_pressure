@@ -22,6 +22,8 @@ public class SimpleSimulationDrawer implements SimulationDrawer{
             Point position = agent.getPosition();
             double radius = agent.getAgentRadius();
             surface.fillOval(position.getX(), position.getY(), radius, radius);
+
+            System.out.printf("(%d, %d)\n", agent.getPosition().getX(), agent.getPosition().getY());
         }
 
         for(Wall wall : simulation.getBoard().getWalls()){
