@@ -26,6 +26,10 @@ public class Point {
         this.y = y;
     }
 
+    public Vector toVector(){
+        return new Vector(Math.sqrt(x*x + y*y), Math.atan(y/(double)x));
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Point point){

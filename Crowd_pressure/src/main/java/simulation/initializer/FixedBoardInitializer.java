@@ -20,7 +20,7 @@ public class FixedBoardInitializer implements BoardInitializer{
     @Override
     public Board initialize() throws Exception {
         List<Wall> walls = new ArrayList<>();
-        walls.add(new Wall(new Point(5, 2), new Point(2, 4)));
+        walls.add(new Wall(new Point(width/3, 100), new Point(width-30, 200)));
         return new Board(width, height, walls);
     }
 }

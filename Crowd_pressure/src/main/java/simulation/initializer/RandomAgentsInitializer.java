@@ -29,10 +29,12 @@ public class RandomAgentsInitializer implements AgentsInitializer {
             agents.add(new Agent(
                     new Point(x, y),
                     random.nextDouble(40, 120),
-                    random.nextDouble(1, 3),
+                    random.nextDouble(4, 10),
+                    random.nextDouble(10, 20),
                     random.nextDouble(150, 170),
                     random.nextDouble(50, 200),
-                    random.nextDouble(0.4, 0.6)
+                    random.nextDouble(0.4, 0.6),
+                    new Point(100, 100) // todo: fix
             ));
         }
         return agents;

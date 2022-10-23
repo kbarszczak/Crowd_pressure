@@ -26,6 +26,10 @@ public class Vector {
         this.angle = angle;
     }
 
+    public Point toPoint() {
+        return new Point((int)(Math.cos(angle) * value), (int)(Math.sin(angle) * value));
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Vector vector){

@@ -45,6 +45,7 @@ public class MultiThreadComputingEngine implements ComputingEngine {
             ));
         }
         cdl.await();
+        for(Agent agent : agents) agent.prepareToNextStep();
     }
 
     @Override

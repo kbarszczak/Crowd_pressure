@@ -8,7 +8,6 @@ public class Agent {
     private int index;
     private boolean inMove;
     private Point []position;
-    private Vector []acceleration;
     private Vector []velocity;
     private Vector desiredVelocity;
 
@@ -26,7 +25,7 @@ public class Agent {
         this.index = 0;
         this.inMove = false;
         this.position = new Point[]{initPosition, new Point(initPosition.getX(), initPosition.getY())};
-        this.acceleration = new Vector[]{new Vector(0, 0), new Vector(0, 0)};
+        //this.acceleration = new Vector[]{new Vector(0, 0), new Vector(0, 0)};
         this.velocity = new Vector[]{new Vector(agentComfortableSpeed, MathUtil.calculateMutualAngle(initPosition, agentDesiredPosition)), new Vector(0, 0)};
         this.desiredVelocity = new Vector(0, 0);
 
@@ -54,14 +53,6 @@ public class Agent {
 
     public Vector getDesiredVelocity() {
         return desiredVelocity;
-    }
-
-    public Vector getAcceleration() {
-        return acceleration[index];
-    }
-
-    public Vector getNextAcceleration(){
-        return acceleration[(index+1)%2];
     }
 
     public Point getPosition() {
@@ -98,6 +89,14 @@ public class Agent {
 
     public Point getAgentDesiredPosition() {
         return agentDesiredPosition;
+    }
+
+    public void setNextPosition(Point position) {
+        this.position[(index+1) % 2] = position;
+    }
+
+    public void setNextVelocity(Vector velocity) {
+        this.velocity[(index+1) % 2] = velocity;
     }
 
     public void prepareToNextStep(){
