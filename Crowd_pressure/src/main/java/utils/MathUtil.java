@@ -4,8 +4,6 @@ import simulation.model.*;
 
 import java.util.List;
 
-// TODO: write tests for all static functions
-
 public class MathUtil {
 
     private MathUtil(){}
