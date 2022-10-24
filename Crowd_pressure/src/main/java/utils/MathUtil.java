@@ -12,8 +12,13 @@ public class MathUtil {
         return (point1.getY() - point2.getY()) / (double)(point1.getX() - point2.getX());
     }
 
+    // powinien być wektor skierowany z p1 do p2
     public static double calculateMutualAngle(Point point1, Point point2){
-        return Math.atan(calculateLineCoefficient(point1, point2));
+        double angle = Math.atan2(point2.getY() - point1.getY(), point2.getX() - point1.getX());
+        if(angle < 0){
+            angle += 2*Math.PI;
+        }
+        return angle;
     }
 
     public static double calculateDistanceBetweenPoints(Point point1, Point point2){
@@ -21,13 +26,28 @@ public class MathUtil {
     }
 
     public static Point getCrossingPoint(Point sourcePoint, double sourceAngle, Point straightStart, Point straightEnd){
-        double x0 = sourcePoint.getX(), y0 = sourcePoint.getY();
-        double x1 = straightStart.getX(), y1 = straightStart.getY();
-        double tga = Math.tan(sourceAngle);
-        double lineCoefficient = calculateLineCoefficient(straightStart, straightEnd);
+//        double x0 = sourcePoint.getX(), y0 = sourcePoint.getY();
+//        double x1 = straightStart.getX(), y1 = straightStart.getY();
+//        double tga = Math.tan(sourceAngle);
+//        double lineCoefficient = calculateLineCoefficient(straightStart, straightEnd);
+//
+//        double x = (y1 - lineCoefficient*x1 - y0 + x0*tga) / (tga - lineCoefficient);
+//        double y = tga*x + y0 - tga*x0;
+//
+//        return new Point((int)x, (int)y);
+        Point sourcePoint2 = new Vector(1, sourceAngle).toPoint();
+        double x1 = sourcePoint.getX();
+        double y1 = sourcePoint.getY();
+        double x2 = sourcePoint2.getX();
+        double y2 = sourcePoint2.getY();
+        double x3 = straightStart.getX();
+        double y3 = straightStart.getY();
+        double x4 = straightEnd.getX();
+        double y4 = straightEnd.getY();
 
-        double x = (y1 - lineCoefficient*x1 - y0 + x0*tga) / (tga - lineCoefficient);
-        double y = tga*x + y0 - tga*x0;
+        double tmp = ((x1 - x2)*(y3 - y4) - (y1 - y2)*(x3 - x4));
+        double x = ((x1*y2 - y1*x2)*(x3 - x4) - (x1 - x2)*(x3*y4 - y3*x4))/tmp;
+        double y = ((x1*y2 - y1*x2)*(y3 - y4) - (y1 - y2)*(x3*y4 - y3*x4))/tmp;
 
         return new Point((int)x, (int)y);
     }

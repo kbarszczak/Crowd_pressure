@@ -27,7 +27,7 @@ public class Point {
     }
 
     public Vector toVector(){
-        return new Vector(Math.sqrt(x*x + y*y), Math.atan(y/(double)x));
+        return new Vector(Math.sqrt(x*x + y*y), Math.atan2(y, x));
     }
 
     @Override
@@ -36,5 +36,10 @@ public class Point {
             return point.x == x && point.y == y;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Point("+ x + ", " + y + ')';
     }
 }

@@ -2,12 +2,12 @@ package simulation.model;
 
 public class Vector {
 
-    private double value;
-    private double angle;
+    private double value; // any
+    private double angle; // in range from 0 to 2PI
 
     public Vector(double value, double angle) {
-        this.value = value;
-        this.angle = angle;
+        setValue(value);
+        setAngle(angle);
     }
 
     public double getValue() {
@@ -19,24 +19,31 @@ public class Vector {
     }
 
     public void setValue(double value) {
+        if(value < 0) throw new IllegalStateException("Value cannot be negative");
         this.value = value;
     }
 
     public void setAngle(double angle) {
+        while (angle < 0){
+            angle += 2*Math.PI;
+        }
+        while (angle > 2*Math.PI){
+            angle -= 2*Math.PI;
+        }
         this.angle = angle;
     }
 
     public Vector add(Vector vector){
         return new Vector(
                 Math.sqrt(Math.pow(value, 2) + Math.pow(vector.value, 2) + 2*value*vector.value*Math.cos(vector.angle - angle)),
-                Math.atan2(vector.value*Math.sin(vector.angle - angle), value + vector.value*Math.cos(vector.angle - angle))
+                angle + Math.atan2(vector.value*Math.sin(vector.angle - angle), value + vector.value*Math.cos(vector.angle - angle))
         );
     }
 
     public Vector subtract(Vector vector){
         return new Vector(
                 Math.sqrt(Math.pow(value, 2) + Math.pow(vector.value, 2) - 2*value*vector.value*Math.cos(angle - vector.angle)),
-                Math.atan((value*Math.sin(angle) - vector.value*Math.sin(vector.angle)) / (value*Math.cos(angle) - vector.value*Math.cos(vector.angle)))
+                angle - Math.atan2(vector.value*Math.sin(vector.angle - angle), value - vector.value*Math.cos(vector.angle - angle))
         );
     }
 
@@ -60,4 +67,8 @@ public class Vector {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "Vector(" + value + ", " + angle + ')';
+    }
 }
