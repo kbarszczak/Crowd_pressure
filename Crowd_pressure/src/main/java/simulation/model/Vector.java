@@ -56,7 +56,7 @@ public class Vector {
     }
 
     public Point toPoint() {
-        return new Point((int)(Math.cos(angle) * value), (int)(Math.sin(angle) * value));
+        return new Point((Math.cos(angle) * value), (Math.sin(angle) * value));
     }
 
     @Override

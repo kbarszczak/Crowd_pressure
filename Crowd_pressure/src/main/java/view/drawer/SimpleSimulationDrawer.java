@@ -20,12 +20,13 @@ public class SimpleSimulationDrawer implements SimulationDrawer{
 
         for(Agent agent : simulation.getAgents()){
             Point position = agent.getPosition();
+            if(agent.getVelocity().getValue() < agent.getAgentComfortableSpeed()) surface.setFill(Color.RED);
+            else surface.setFill(Color.GREEN);
             double radius = agent.getAgentRadius();
             surface.fillOval(position.getX(), position.getY(), radius, radius);
-
-            System.out.printf("(%d, %d)\n", agent.getPosition().getX(), agent.getPosition().getY());
         }
 
+        surface.setFill(Color.BLACK);
         for(Wall wall : simulation.getBoard().getWalls()){
             Point start = wall.getStartPoint();
             Point end = wall.getEndPoint();

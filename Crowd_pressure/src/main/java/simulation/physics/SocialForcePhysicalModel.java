@@ -37,10 +37,11 @@ public class SocialForcePhysicalModel implements PhysicalModel{
         acceleration = acceleration.add(wallImpactAcceleration);
 
         // apply changes on the agent
-        Vector velocityChange = acceleration.multiplyByConstantCopy(timeQuantum);
+        Vector velocityChange = acceleration.multiplyByConstantCopy(timeQuantum/1000.0);
         agent.setNextVelocity(agent.getVelocity().add(velocityChange));
 
-        Vector positionChange = velocityChange.multiplyByConstantCopy(timeQuantum);
+        //Vector positionChange = velocityChange.multiplyByConstantCopy(timeQuantum/1000.0);
+        Vector positionChange = agent.getVelocity().multiplyByConstantCopy(timeQuantum/1000.0);
         agent.setNextPosition(agent.getPosition().add(positionChange.toPoint()));
     }
 

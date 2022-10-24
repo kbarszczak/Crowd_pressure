@@ -31,9 +31,6 @@ public class SimulationTask implements Task{
                 heuristic.apply(agent, allAgents, board);
             }
             physicalModel.apply(agent, allAgents, board);
-
-            System.out.println();
-            System.out.println();//todo: delete
         }
     }
 }

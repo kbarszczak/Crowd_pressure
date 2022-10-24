@@ -23,18 +23,18 @@ public class RandomAgentsInitializer implements AgentsInitializer {
         List<Agent> agents = new ArrayList<>();
 
         for(int i=0; i<count; ++i){
-            int x = random.nextInt(1, board.getWidth()-1);
-            int y = random.nextInt(1, board.getHeight()-1);
+            double x = random.nextDouble(1, board.getWidth()-1);
+            double y = random.nextDouble(1, board.getHeight()-1);
             // todo: verify position
             agents.add(new Agent(
                     new Point(x, y),
                     random.nextDouble(40, 120),
                     random.nextDouble(5, 7),
-                    random.nextDouble(1, 3),
+                    random.nextDouble(5, 10),
                     random.nextDouble(150, 170),
                     random.nextDouble(50, 200),
                     random.nextDouble(0.4, 0.6),
-                    new Point(100, 100) // todo: fix
+                    new Point(100, 200) // todo: fix
             ));
         }
         return agents;

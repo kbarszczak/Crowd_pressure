@@ -9,7 +9,7 @@ public class MathUtil {
     private MathUtil(){}
 
     public static double calculateLineCoefficient(Point point1, Point point2){
-        return (point1.getY() - point2.getY()) / (double)(point1.getX() - point2.getX());
+        return (point1.getY() - point2.getY()) / (point1.getX() - point2.getX());
     }
 
     // powinien być wektor skierowany z p1 do p2
@@ -49,7 +49,7 @@ public class MathUtil {
         double x = ((x1*y2 - y1*x2)*(x3 - x4) - (x1 - x2)*(x3*y4 - y3*x4))/tmp;
         double y = ((x1*y2 - y1*x2)*(y3 - y4) - (y1 - y2)*(x3*y4 - y3*x4))/tmp;
 
-        return new Point((int)x, (int)y);
+        return new Point(x, y);
     }
 
     public static Point getCrossingPointInShortestPath(Point sourcePoint, Point straightStart, Point straightEnd){

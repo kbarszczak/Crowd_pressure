@@ -2,6 +2,7 @@ package view.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
@@ -119,6 +120,11 @@ public class SimulationController implements Initializable {
     private void changeEngine(ActionEvent event){
         try{
             // todo: write change engine code
+            if(singleRadioButton.isSelected()){
+                simulation.setEngine(new SingleThreadComputingEngine());
+            }else if(multiRadioButton.isSelected()){
+                simulation.setEngine(new MultiThreadComputingEngine());
+            }
         }catch (Exception exception){
             // todo: handle change engine exception
         }
@@ -131,10 +137,10 @@ public class SimulationController implements Initializable {
             simulation = new Simulation(
                     new SocialForcePhysicalModel(1, timeline.getKeyFrames().get(0).getTime().toMillis()), // the physical model used in the simulation
                     List.of(new DistanceHeuristic(), new DirectionHeuristic()), // the list of heuristics used in the simulation (don't pass null value)
-                    //new MultiThreadComputingEngine(), // the computing engine responsible for doing all the calculations
-                    new SingleThreadComputingEngine(), // the computing engine responsible for doing all the calculations
+                    new MultiThreadComputingEngine(), // the computing engine responsible for doing all the calculations
+                    //new SingleThreadComputingEngine(), // the computing engine responsible for doing all the calculations
                     new FixedBoardInitializer((int)simulationCanvas.getWidth(), (int)simulationCanvas.getHeight()), // the object that is responsible for initializing the board
-                    new RandomAgentsInitializer(10) // the object that is responsible for initializing the agent
+                    new RandomAgentsInitializer(60) // the object that is responsible for initializing the agent
             );
             drawer = new SimpleSimulationDrawer();
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);

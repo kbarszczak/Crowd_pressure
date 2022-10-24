@@ -33,12 +33,13 @@ public class MultiThreadComputingEngine implements ComputingEngine {
         CountDownLatch cdl = new CountDownLatch(threadCount);
         int groupSize = (int)Math.ceil(agents.size() / (double)threadCount);
         for(int i=0; i<threadCount; ++i) {
+            if(i*groupSize >= agents.size()) break;
             executor.execute(new WorkerThread(
                     new SimulationTask(
                             physicalModel,
                             heuristics,
                             agents,
-                            agents.subList(i*groupSize, Math.min(i * groupSize + groupSize, agents.size() + 1)),
+                            agents.subList(i*groupSize, Math.min(i * groupSize + groupSize, agents.size() - 1)),
                             board
                     ),
                     cdl
