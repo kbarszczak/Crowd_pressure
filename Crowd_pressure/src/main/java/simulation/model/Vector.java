@@ -2,7 +2,7 @@ package simulation.model;
 
 public class Vector {
 
-    private double value; // any
+    private double value; // non negative
     private double angle; // in range from 0 to 2PI
 
     public Vector(double value, double angle) {

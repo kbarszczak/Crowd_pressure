@@ -5,7 +5,7 @@ import simulation.heuristic.Heuristic;
 import simulation.initializer.AgentsInitializer;
 import simulation.initializer.BoardInitializer;
 import simulation.initializer.EmptyBoardInitializer;
-import simulation.initializer.RandomAgentsInitializer;
+import simulation.initializer.Map1AgentsInitializer;
 import simulation.model.Agent;
 import simulation.model.Board;
 import simulation.physics.PhysicalModel;
@@ -38,7 +38,7 @@ public class Simulation implements Closeable {
             this.agents = agentInitializer.initialize(agentCount, this.board);
         }catch (Exception exception){
             System.out.println("Exception during agents initialization. Empty agent list was created. Details: " + exception.getMessage());
-            try{this.agents = new RandomAgentsInitializer().initialize(agentCount, this.board);} catch (Exception ignore){}
+            try{this.agents = new Map1AgentsInitializer().initialize(agentCount, this.board);} catch (Exception ignore){}
         }
     }
 

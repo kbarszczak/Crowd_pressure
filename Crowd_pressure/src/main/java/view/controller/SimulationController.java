@@ -22,8 +22,8 @@ import simulation.computation.MultiThreadComputingEngine;
 import simulation.computation.SingleThreadComputingEngine;
 import simulation.heuristic.DirectionHeuristic;
 import simulation.heuristic.DistanceHeuristic;
-import simulation.initializer.RandomAgentsInitializer;
-import simulation.initializer.FixedBoardInitializer;
+import simulation.initializer.Map1AgentsInitializer;
+import simulation.initializer.Map1BoardInitializer;
 import simulation.physics.SocialForcePhysicalModel;
 import view.drawer.SimpleSimulationDrawer;
 import view.drawer.SimulationDrawer;
@@ -97,7 +97,6 @@ public class SimulationController implements Initializable {
 
     @FXML
     private void exit(){
-
         try{
             Stage stage = (Stage) exitButton.getScene().getWindow();
             stage.close();
@@ -118,7 +117,6 @@ public class SimulationController implements Initializable {
     @FXML
     private void changeEngine(ActionEvent event){
         try{
-            // todo: write change engine code
             if(singleRadioButton.isSelected()){
                 simulation.setEngine(new SingleThreadComputingEngine());
             }else if(multiRadioButton.isSelected()){
@@ -132,18 +130,16 @@ public class SimulationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try{
-            // todo: initialize simulation here
-            // todo: fix multi thread for small group
             simulation = new Simulation(
                     (int)simulationCanvas.getWidth(),
                     (int)simulationCanvas.getHeight(),
-                    50,
+                    80,
                     new SocialForcePhysicalModel(100, timeline.getKeyFrames().get(0).getTime().toMillis()), // the physical model used in the simulation
                     List.of(new DistanceHeuristic(), new DirectionHeuristic()), // the list of heuristics used in the simulation (don't pass null value)
                     new MultiThreadComputingEngine(), // the computing engine responsible for doing all the calculations
                     //new SingleThreadComputingEngine(), // the computing engine responsible for doing all the calculations
-                    new FixedBoardInitializer(), // the object that is responsible for initializing the board
-                    new RandomAgentsInitializer() // the object that is responsible for initializing the agent
+                    new Map1BoardInitializer(), // the object that is responsible for initializing the board
+                    new Map1AgentsInitializer() // the object that is responsible for initializing the agent
             );
             drawer = new SimpleSimulationDrawer();
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);
@@ -159,5 +155,4 @@ public class SimulationController implements Initializable {
             System.out.println("Could not close the simulation. Details: " + exception.getMessage());
         }
     }
-
 }

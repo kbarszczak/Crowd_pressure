@@ -12,7 +12,6 @@ public class MathUtil {
         return (point1.getY() - point2.getY()) / (point1.getX() - point2.getX());
     }
 
-    // powinien być wektor skierowany z p1 do p2
     public static double calculateMutualAngle(Point point1, Point point2){
         double angle = Math.atan2(point2.getY() - point1.getY(), point2.getX() - point1.getX());
         if(angle < 0){
@@ -71,5 +70,4 @@ public class MathUtil {
 
         return distanceToCollision;
     }
-
 }

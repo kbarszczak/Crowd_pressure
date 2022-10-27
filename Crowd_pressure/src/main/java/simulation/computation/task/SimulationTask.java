@@ -33,4 +33,9 @@ public class SimulationTask implements Task{
             physicalModel.apply(agent, allAgents, board);
         }
     }
+
+    @Override
+    public void cleanUp() {
+        for(Agent agent : computationAgents) agent.prepareToNextStep();
+    }
 }
