@@ -3,8 +3,9 @@ package utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import simulation.model.Point;
-import simulation.model.Vector;
+import simulation.model.*;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +25,6 @@ class MathUtilTest {
 
     @BeforeEach
     void setUp() {
-
         point1 = new Point(3, 4);
         point2 = new Point(4, 3);
         point3 = new Point(-3, 4);
@@ -107,28 +107,57 @@ class MathUtilTest {
     @Test
     void getCrossingPoint() {
         Point result1 = MathUtil.getCrossingPoint(point2, 5/4.0*Math.PI, point3, point4);
-        //Assertions.assertEquals(new Point(1, 0), result1);
+        Assertions.assertEquals(new Point(1, 0), result1);
 
-        Point result3 = MathUtil.getCrossingPoint(pointP, Math.PI/2.0, pointD, new Point(-3, 0));
+        Point result3 = MathUtil.getCrossingPoint(pointP, Math.PI/2.0, pointD, new Point(-13/2.0, -3));
         Assertions.assertEquals(pointA, result3);
 
-        Point result4 = MathUtil.getCrossingPoint(pointP, Math.PI, pointC, new Point(-9, -3));
+        Point result4 = MathUtil.getCrossingPoint(pointP, Math.PI, pointC, new Point(-13/2.0, -5));
         Assertions.assertEquals(pointD, result4);
-
-        Point result5 = MathUtil.getCrossingPoint(pointP, Math.PI/6.0, pointA, pointB);
-        Assertions.assertEquals(new Point(
-                (int)(-(4/3.0 +5/3.0*Math.sqrt(3))/(2/3.0+Math.sqrt(3)/3.0)),
-                (int)(2/3.0*(-(4/3.0 +5/3.0*Math.sqrt(3))/(2/3.0+Math.sqrt(3)/3.0))-16/3.0 )
-                ), result5);
     }
 
     @Test
     void getCrossingPointInShortestPath() {
+        Point result1 = MathUtil.getCrossingPointInShortestPath(point2, point3, point4);
+        Assertions.assertEquals(new Point(1, 0), result1);
 
+        Point result2 = MathUtil.getCrossingPointInShortestPath(point1, point3, point4);
+        Assertions.assertEquals(new Point(0, 1), result2);
     }
 
     @Test
     void calculateDistanceToCollision() {
+        Agent agent = new Agent(
+                new Point(3, 1),
+                60,
+                1,
+                6,
+                150,
+                450,
+                0.5,
+                new Point(100, 200)
+        );
+        List<Agent> agentList = List.of(agent, new Agent(new Point(2, 0), 60, 0.5, 6, 150, 450, 0.5, new Point(100, 200)));
+        Wall wall1 = new Wall(new Point(4.95, 1.05), new Point(2, 4));
+        Wall wall2 = new Wall(new Point(0, 0), new Point(3, 3));
+        Board board = new Board(300, 300, List.of(wall1, wall2));
 
+        double result1 = MathUtil.calculateDistanceToCollision(0, agent, agentList, board);
+        Assertions.assertEquals(450, result1, delta);
+
+        double result2 = MathUtil.calculateDistanceToCollision(Math.PI*1/4.0, agent, agentList, board);
+        Assertions.assertEquals(Math.sqrt(2), result2, delta);
+
+        double result3 = MathUtil.calculateDistanceToCollision(Math.PI*3/4.0, agent, agentList, board);
+        Assertions.assertEquals(Math.sqrt(2), result3, delta);
+
+        double result4 = MathUtil.calculateDistanceToCollision(Math.PI, agent, agentList, board);
+        Assertions.assertEquals(2, result4, delta);
+
+        double result5 = MathUtil.calculateDistanceToCollision(Math.PI*5/4.0, agent, agentList, board);
+        Assertions.assertEquals(Math.sqrt(2), result5, delta);
+
+        double result6 = MathUtil.calculateDistanceToCollision(Math.PI*5/4.0 + Math.PI/180.0*3, agent, agentList, board);
+        Assertions.assertEquals(Math.sqrt(2), result6, delta);
     }
 }

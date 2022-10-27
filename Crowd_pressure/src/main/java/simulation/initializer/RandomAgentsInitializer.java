@@ -11,28 +11,28 @@ import java.util.Random;
 public class RandomAgentsInitializer implements AgentsInitializer {
 
     private final Random random;
-    private final int count;
 
-    public RandomAgentsInitializer(int count) {
+    public RandomAgentsInitializer() {
         this.random = new Random();
-        this.count = count;
     }
 
     @Override
-    public List<Agent> initialize(Board board) throws Exception {
+    public List<Agent> initialize(int agentCount, Board board) throws Exception {
         List<Agent> agents = new ArrayList<>();
 
-        for(int i=0; i<count; ++i){
+        for(int i=0; i<agentCount; ++i){
             double x = random.nextDouble(1, board.getWidth()-1);
             double y = random.nextDouble(1, board.getHeight()-1);
+            double agentMass = random.nextDouble(40, 120);
+
             // todo: verify position
             agents.add(new Agent(
                     new Point(x, y),
-                    random.nextDouble(40, 120),
-                    random.nextDouble(5, 7),
-                    random.nextDouble(5, 10),
-                    random.nextDouble(150, 170),
-                    random.nextDouble(50, 200),
+                    agentMass,
+                    agentMass/20,
+                    random.nextDouble(10, 12),
+                    random.nextDouble(1.22173, 1.39626),
+                    random.nextDouble(200, 300),
                     random.nextDouble(0.4, 0.6),
                     new Point(100, 200) // todo: fix
             ));

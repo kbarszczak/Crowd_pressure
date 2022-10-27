@@ -2,7 +2,6 @@ package view.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
@@ -134,13 +133,17 @@ public class SimulationController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try{
             // todo: initialize simulation here
+            // todo: fix multi thread for small group
             simulation = new Simulation(
-                    new SocialForcePhysicalModel(1, timeline.getKeyFrames().get(0).getTime().toMillis()), // the physical model used in the simulation
+                    (int)simulationCanvas.getWidth(),
+                    (int)simulationCanvas.getHeight(),
+                    50,
+                    new SocialForcePhysicalModel(100, timeline.getKeyFrames().get(0).getTime().toMillis()), // the physical model used in the simulation
                     List.of(new DistanceHeuristic(), new DirectionHeuristic()), // the list of heuristics used in the simulation (don't pass null value)
                     new MultiThreadComputingEngine(), // the computing engine responsible for doing all the calculations
                     //new SingleThreadComputingEngine(), // the computing engine responsible for doing all the calculations
-                    new FixedBoardInitializer((int)simulationCanvas.getWidth(), (int)simulationCanvas.getHeight()), // the object that is responsible for initializing the board
-                    new RandomAgentsInitializer(60) // the object that is responsible for initializing the agent
+                    new FixedBoardInitializer(), // the object that is responsible for initializing the board
+                    new RandomAgentsInitializer() // the object that is responsible for initializing the agent
             );
             drawer = new SimpleSimulationDrawer();
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);

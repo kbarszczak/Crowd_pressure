@@ -5,22 +5,28 @@ import simulation.model.Wall;
 import simulation.model.Point;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FixedBoardInitializer implements BoardInitializer{
 
-    private final int width;
-    private final int height;
-
-    public FixedBoardInitializer(int width, int height) {
-        this.width = width;
-        this.height = height;
-    }
-
     @Override
-    public Board initialize() throws Exception {
-        List<Wall> walls = new ArrayList<>();
-        walls.add(new Wall(new Point(width/3.0, 100), new Point(width-30, 200)));
-        return new Board(width, height, walls);
+    public Board initialize(int width, int height) throws Exception {
+        Board result;
+        try{
+            result = new EmptyBoardInitializer().initialize(width, height);
+        }catch (Exception exception){
+            result = new Board(width, height, new ArrayList<>());
+        }
+
+        result.getWalls().add(new Wall(
+                new Point(width/2.0, height-1),
+                new Point(width/2.0, (height-1)/2.0 + 10))
+        );
+
+        result.getWalls().add(new Wall(
+                new Point(width/2.0, 0),
+                new Point(width/2.0, (height-1)/2.0 - 10))
+        );
+
+        return result;
     }
 }

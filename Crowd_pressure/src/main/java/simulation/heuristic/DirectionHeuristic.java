@@ -10,16 +10,19 @@ public class DirectionHeuristic implements Heuristic{
 
     @Override
     public void apply(Agent agent, List<Agent> allAgents, Board board) throws Exception {
-        double step = 1;
+        double step = 0.0174533; // 1 degree
         double bestDistance = agent.getAgentMaxVisionDistance();
         double bestAngle = agent.getVelocity().getAngle();
-        for(double angle = (agent.getVelocity().getAngle()-agent.getAgentVisionAngle()); angle <=  (agent.getVelocity().getAngle()+agent.getAgentVisionAngle()); angle += step){
-            if(angle < 0) angle += (2 * Math.PI);
+        // todo: below foo loop is very very very slow - try to improve this
+        for(double angle = (agent.getVelocity().getAngle()-agent.getAgentVisionAngle()); angle <= (agent.getVelocity().getAngle()+agent.getAgentVisionAngle()); angle += step){
+            double angleNormalized = angle;
+            while (angleNormalized < 0) angleNormalized += (Math.PI*2);
+            while (angleNormalized >= 2*Math.PI) angleNormalized -= (Math.PI*2);
 
-            double distance = calculateDistance(angle, agent, allAgents, board);
+            double distance = calculateDistance(angleNormalized, agent, allAgents, board);
             if(distance < bestDistance){
                 bestDistance = distance;
-                bestAngle = angle;
+                bestAngle = angleNormalized;
             }
         }
         agent.getDesiredVelocity().setAngle(bestAngle);

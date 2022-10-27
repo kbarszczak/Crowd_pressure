@@ -14,13 +14,14 @@ public class SimpleSimulationDrawer implements SimulationDrawer{
     public void draw(GraphicsContext surface, Simulation simulation) {
         // todo: use the graphic context object to draw the simulation state
         surface.setFill(Color.GREEN);
-        surface.fillRect(0, 0, surface.getCanvas().getWidth(), surface.getCanvas().getHeight());
-        int borderWidth = 2;
-        surface.clearRect(borderWidth, borderWidth, surface.getCanvas().getWidth()-borderWidth*2, surface.getCanvas().getHeight()-borderWidth*2);
+        surface.clearRect(0, 0, surface.getCanvas().getWidth(), surface.getCanvas().getHeight());
 
         for(Agent agent : simulation.getAgents()){
             Point position = agent.getPosition();
-            if(agent.getVelocity().getValue() < agent.getAgentComfortableSpeed()) surface.setFill(Color.RED);
+            if(agent.getVelocity().getValue() < agent.getAgentComfortableSpeed()) {
+                surface.setFill(Color.RED);
+                System.out.println();
+            }
             else surface.setFill(Color.GREEN);
             double radius = agent.getAgentRadius();
             surface.fillOval(position.getX(), position.getY(), radius, radius);

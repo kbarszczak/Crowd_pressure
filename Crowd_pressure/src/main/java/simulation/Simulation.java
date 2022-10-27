@@ -22,23 +22,23 @@ public class Simulation implements Closeable {
     private List<Heuristic> heuristics;
     private ComputingEngine engine;
 
-    public Simulation(PhysicalModel physicalModel, List<Heuristic> heuristics, ComputingEngine engine, BoardInitializer boardInitializer, AgentsInitializer agentInitializer){
+    public Simulation(int width, int height, int agentCount, PhysicalModel physicalModel, List<Heuristic> heuristics, ComputingEngine engine, BoardInitializer boardInitializer, AgentsInitializer agentInitializer){
         this.physicalModel = physicalModel;
         this.heuristics = heuristics;
         this.engine = engine;
 
         try{
-            this.board = boardInitializer.initialize();
+            this.board = boardInitializer.initialize(width, height);
         }catch (Exception exception){
             System.out.println("Exception during board initialization. Empty board was created. Details: " + exception.getMessage());
-            try{this.board = new EmptyBoardInitializer().initialize();} catch (Exception ignore){}
+            try{this.board = new EmptyBoardInitializer().initialize(width, height);} catch (Exception ignore){}
         }
 
         try{
-            this.agents = agentInitializer.initialize(this.board);
+            this.agents = agentInitializer.initialize(agentCount, this.board);
         }catch (Exception exception){
             System.out.println("Exception during agents initialization. Empty agent list was created. Details: " + exception.getMessage());
-            try{this.agents = new RandomAgentsInitializer(50).initialize(this.board);} catch (Exception ignore){}
+            try{this.agents = new RandomAgentsInitializer().initialize(agentCount, this.board);} catch (Exception ignore){}
         }
     }
 
