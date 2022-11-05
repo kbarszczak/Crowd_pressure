@@ -22,14 +22,25 @@ public class SocialForcePhysicalModel implements PhysicalModel{
             return;
         }
 
+//        System.out.println("1ST");
+
         // 1st
         Vector acceleration = agent.getDesiredVelocity().subtract(agent.getVelocity());
+//        System.out.println("Acceleration 1: " + acceleration.toString());
         acceleration.multiplyByConstant(1 / agent.getAgentRelaxationTime());
+//        System.out.println("Acceleration 2: " + acceleration + ". Multiplied by: " + (1 / agent.getAgentRelaxationTime()));
+
+//        System.out.println("2ND");
 
         // 2nd
         Vector obstacleImpactAcceleration = calculateAgentImpactForce(agent, allAgents);
+//        System.out.println("ObstacleImpactAcceleration 1: " + obstacleImpactAcceleration.toString());
         obstacleImpactAcceleration.multiplyByConstant(1 / agent.getAgentMass());
+//        System.out.println("ObstacleImpactAcceleration 2: " + obstacleImpactAcceleration + ". Multiplied by: " + (1 / agent.getAgentMass()));
         acceleration =  acceleration.add(obstacleImpactAcceleration);
+//        System.out.println("Acceleration 3: " + acceleration.toString());
+
+//        System.out.println("3RD");
 
         // 3rd
         Vector wallImpactAcceleration = calculateWallImpactForce(agent, board.getWalls());
@@ -37,12 +48,14 @@ public class SocialForcePhysicalModel implements PhysicalModel{
         acceleration = acceleration.add(wallImpactAcceleration);
 
         // apply changes on the agent
-        Vector velocityChange = acceleration.multiplyByConstantCopy(timeQuantum/1000.0);
+        Vector velocityChange = acceleration.multiplyByConstantCopy(timeQuantum/300.0);
         agent.setNextVelocity(agent.getVelocity().add(velocityChange));
 
         //Vector positionChange = velocityChange.multiplyByConstantCopy(timeQuantum/1000.0);
-        Vector positionChange = agent.getVelocity().multiplyByConstantCopy(timeQuantum/1000.0);
+        Vector positionChange = agent.getVelocity().multiplyByConstantCopy(timeQuantum/300.0);
         agent.setNextPosition(agent.getPosition().add(positionChange.toPoint()));
+
+        System.out.println();
     }
 
     private Vector calculateAgentImpactForce(Agent agent, List<Agent> allAgents){
