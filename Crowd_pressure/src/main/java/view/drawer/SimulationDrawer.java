@@ -15,9 +15,10 @@ public interface SimulationDrawer {
 
     /**
      * The method can be used to set up drawing environment
-     * @param stage the stage of the view
+     * @param width the new window width
+     * @param height the new window height
      * @param surface the canvas surface object
-     * @param simulation the simulation that is drawn // todo: write this
+     * @param simulation the simulation that is drawn
      */
     void scale(int width, int height, GraphicsContext surface, Simulation simulation);
 

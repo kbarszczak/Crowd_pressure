@@ -2,7 +2,6 @@ package view.drawer;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import simulation.Simulation;
 import simulation.model.Agent;
 import simulation.model.Point;
@@ -12,18 +11,10 @@ import view.SimulationApplication;
 
 public class SimpleSimulationDrawer implements SimulationDrawer{
 
-    private double scale;
-
-    public SimpleSimulationDrawer() {
-        this.scale = 1;
-    }
-
     @Override
     public void draw(GraphicsContext surface, Simulation simulation) {
         // todo: use the graphic context object to draw the simulation state
-        //setView(surface, simulation);
         surface.clearRect(0, 0, surface.getCanvas().getWidth(), surface.getCanvas().getHeight());
-        //surface.restore();
 
         for(Agent agent : simulation.getAgents()){
             if(agent.getVelocity().getValue() < agent.getAgentComfortableSpeed()) surface.setFill(Color.RED);
@@ -85,23 +76,17 @@ public class SimpleSimulationDrawer implements SimulationDrawer{
 
     @Override
     public void scale(int width, int height, GraphicsContext surface, Simulation simulation) {
-        if(width < simulation.getBoard().getWidth() || height < simulation.getBoard().getHeight()) return;
+        double scaleX = width / surface.getCanvas().getWidth();
+        double scaleY = height / surface.getCanvas().getHeight();
 
-        double widthSpace = width - surface.getCanvas().getWidth();
-        double heightSpace = height - surface.getCanvas().getHeight();
+//        System.out.println(scaleX + " " +scaleY);
+//        System.out.println(width + " " + height);
+//        System.out.println(surface.getCanvas().getWidth() + " " + surface.getCanvas().getHeight());
+//        System.out.println();
 
-        surface.scale(1/scale, 1/scale);
-        if(Math.min(widthSpace, heightSpace) < 0){
-            if(widthSpace < heightSpace) scale = width / surface.getCanvas().getWidth();
-            else scale = height / surface.getCanvas().getHeight();
-        }else if(Math.min(widthSpace, heightSpace) > 0){
-            if(widthSpace < heightSpace) scale = width / surface.getCanvas().getWidth();
-            else scale = height / surface.getCanvas().getHeight();
-        }
-        System.out.println("Scale: " + scale);
-        surface.scale(scale, scale);
-        surface.getCanvas().setWidth(simulation.getBoard().getWidth()*scale);
-        surface.getCanvas().setHeight(simulation.getBoard().getHeight()*scale);
+        surface.scale(scaleX, scaleY);
+        surface.getCanvas().setWidth(surface.getCanvas().getWidth() * scaleX);
+        surface.getCanvas().setHeight(surface.getCanvas().getHeight() * scaleY);
         draw(surface, simulation);
     }
 }

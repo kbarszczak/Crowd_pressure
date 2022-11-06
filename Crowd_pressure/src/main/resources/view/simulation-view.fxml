@@ -8,6 +8,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
 
 <!-- this fxml file is a view for the application-->
 
@@ -43,6 +44,10 @@
       </FlowPane>
    </bottom>
    <center>
-      <Canvas fx:id="simulationCanvas" height="300.0" width="600.0" BorderPane.alignment="CENTER" />
+      <Pane fx:id="simulationPane" BorderPane.alignment="CENTER">
+         <children>
+            <Canvas fx:id="simulationCanvas" height="300.0" width="600.0" />
+         </children>
+      </Pane>
    </center>
 </BorderPane>

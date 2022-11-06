@@ -15,6 +15,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulation.Simulation;
@@ -54,6 +55,8 @@ public class SimulationController implements Initializable {
     private BorderPane mainBorderPane;
     @FXML
     private Canvas simulationCanvas;
+    @FXML
+    private Pane simulationPane;
 
     public SimulationController() {
         this.timeline = new Timeline(new KeyFrame(Duration.millis(10), this::step));
@@ -82,7 +85,7 @@ public class SimulationController implements Initializable {
     @FXML
     private void reset(){
         try{
-            initialize(null, null);
+            // todo: write reset
         }catch (Exception exception){
             // todo: handle reset exception
         }
@@ -135,18 +138,15 @@ public class SimulationController implements Initializable {
                     new TestBoardInitializer(), // the object that is responsible for initializing the board
                     new TestAgentsInitializer() // the object that is responsible for initializing the agent
             );
-            if(drawer == null) drawer = new SimpleSimulationDrawer();
+            drawer = new SimpleSimulationDrawer();
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);
         }catch (Exception exception){
             // todo: handle initialization exception
         }
     }
 
-    public void scaleDrawer(int width, int height){
-        System.out.println(mainBorderPane.getWidth() + " " + mainBorderPane.getHeight());
-        System.out.println(simulationCanvas.getWidth() + " " + simulationCanvas.getHeight());
-
-        drawer.scale(width, height, simulationCanvas.getGraphicsContext2D(), simulation);
+    public void scaleDrawer(){
+        drawer.scale((int)simulationPane.getWidth(), (int)simulationPane.getHeight(), simulationCanvas.getGraphicsContext2D(), simulation);
     }
 
     public void close() {

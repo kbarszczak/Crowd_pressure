@@ -2,8 +2,8 @@ package view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import view.controller.SimulationController;
@@ -20,7 +20,7 @@ public class SimulationApplication extends Application {
         // prepare the FXML loader
         FXMLLoader loader = new FXMLLoader(getClass().getResource("simulation-view.fxml"));
         // load the view
-        BorderPane root = loader.load();
+        Parent root = loader.load();
         // get the controller for the loaded view
         SimulationController controller = loader.getController();
         // load css stylesheet
@@ -31,12 +31,13 @@ public class SimulationApplication extends Application {
         stage.setMinWidth(616);
 
         Scene scene = new Scene(root); // create scene that visualizes GUI
+        scene.widthProperty().addListener(p -> controller.scaleDrawer()); // scale the drawer and the canvas when window changes its width
+        scene.heightProperty().addListener(p -> controller.scaleDrawer()); // scale the drawer and the canvas when window changes its height
         scene.getStylesheets().add(css); // set up stylesheet
+
         stage.setTitle("Crowd pressure"); // set up the stage title
         stage.setScene(scene); // set up main view/scene
         stage.setOnHidden(p -> controller.close()); // run the controller close method when the stage is closing
-        stage.widthProperty().addListener(p -> controller.scaleDrawer((int)stage.getWidth(), (int)stage.getHeight())); // scale the drawer and the canvas when window changes its width
-        stage.heightProperty().addListener(p -> controller.scaleDrawer((int)stage.getWidth(), (int)stage.getHeight())); // scale the drawer and the canvas when window changes its height
         stage.show(); // show the view
     }
 
