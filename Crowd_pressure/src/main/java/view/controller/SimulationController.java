@@ -130,11 +130,10 @@ public class SimulationController implements Initializable {
             simulation = new Simulation(
                     (int)simulationCanvas.getWidth(),
                     (int)simulationCanvas.getHeight(),
-                    80,
+                    10,
                     new SocialForcePhysicalModel(1000, 3, timeline.getKeyFrames().get(0).getTime().toMillis()), // the physical model used in the simulation
                     List.of(new DistanceHeuristic(), new DirectionHeuristic()), // the list of heuristics used in the simulation (don't pass null value)
                     new MultiThreadComputingEngine(), // the computing engine responsible for doing all the calculations
-                    //new SingleThreadComputingEngine(), // the computing engine responsible for doing all the calculations
                     new Map1BoardInitializer(), // the object that is responsible for initializing the board
                     new Map1AgentsInitializer() // the object that is responsible for initializing the agent
             );

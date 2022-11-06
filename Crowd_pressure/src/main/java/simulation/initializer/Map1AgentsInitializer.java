@@ -23,8 +23,8 @@ public class Map1AgentsInitializer implements AgentsInitializer {
         int width = board.getWidth();
         int height = board.getHeight();
         for(int i=0; i<agentCount; ++i){
-            double x = random.nextDouble(10, width/4.0);
-            double y = random.nextDouble(height/4.0, 3*height/4.0);
+            double x = random.nextDouble(width/4.0-20, width/4.0+40);
+            double y = random.nextDouble(height/2.0-30, height/2.0+30);
             double agentMass = random.nextDouble(50, 100);
 
             agents.add(new Agent(
