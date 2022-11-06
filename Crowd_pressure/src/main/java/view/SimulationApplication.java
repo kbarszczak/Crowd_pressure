@@ -35,6 +35,8 @@ public class SimulationApplication extends Application {
         stage.setTitle("Crowd pressure"); // set up the stage title
         stage.setScene(scene); // set up main view/scene
         stage.setOnHidden(p -> controller.close()); // run the controller close method when the stage is closing
+        stage.widthProperty().addListener(p -> controller.scaleDrawer((int)stage.getWidth(), (int)stage.getHeight())); // scale the drawer and the canvas when window changes its width
+        stage.heightProperty().addListener(p -> controller.scaleDrawer((int)stage.getWidth(), (int)stage.getHeight())); // scale the drawer and the canvas when window changes its height
         stage.show(); // show the view
     }
 

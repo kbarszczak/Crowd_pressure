@@ -61,15 +61,6 @@ public class SimulationController implements Initializable {
         this.simulation = null;
     }
 
-    private void step(ActionEvent event){
-        try{
-            simulation.step(); // do all the necessary calculations in the simulation
-            drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation); // draw the simulation state on the canvas. In other words, visualize the simulations state
-        }catch (Exception exception){
-            // todo: handle step exception
-        }
-    }
-
     @FXML
     private void start(){
         try{
@@ -144,11 +135,18 @@ public class SimulationController implements Initializable {
                     new TestBoardInitializer(), // the object that is responsible for initializing the board
                     new TestAgentsInitializer() // the object that is responsible for initializing the agent
             );
-            drawer = new SimpleSimulationDrawer();
+            if(drawer == null) drawer = new SimpleSimulationDrawer();
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);
         }catch (Exception exception){
             // todo: handle initialization exception
         }
+    }
+
+    public void scaleDrawer(int width, int height){
+        System.out.println(mainBorderPane.getWidth() + " " + mainBorderPane.getHeight());
+        System.out.println(simulationCanvas.getWidth() + " " + simulationCanvas.getHeight());
+
+        drawer.scale(width, height, simulationCanvas.getGraphicsContext2D(), simulation);
     }
 
     public void close() {
@@ -156,6 +154,15 @@ public class SimulationController implements Initializable {
             simulation.close();
         }catch (Exception exception){
             System.out.println("Could not close the simulation. Details: " + exception.getMessage());
+        }
+    }
+
+    private void step(ActionEvent event){
+        try{
+            simulation.step(); // do all the necessary calculations in the simulation
+            drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation); // draw the simulation state on the canvas. In other words, visualize the simulations state
+        }catch (Exception exception){
+            // todo: handle step exception
         }
     }
 }
