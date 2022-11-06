@@ -27,6 +27,26 @@ public class TestBoardInitializer implements BoardInitializer{
                 new Point(width/4.0, (height-1)/2.0 - 3))
         );
 
+        result.getWalls().add(new Wall(
+                new Point(width/4.0+50, height-1),
+                new Point(width/4.0+50, (height-1)/2.0 + 20))
+        );
+
+        result.getWalls().add(new Wall(
+                new Point(width/4.0+50, 0),
+                new Point(width/4.0+50, (height-1)/2.0 + 14))
+        );
+
+        result.getWalls().add(new Wall(
+                new Point(width/4.0+100, height-1),
+                new Point(width/4.0+100, (height-1)/2.0 - 4))
+        );
+
+        result.getWalls().add(new Wall(
+                new Point(width/4.0+100, 0),
+                new Point(width/4.0+100, (height-1)/2.0 - 10))
+        );
+
         return result;
     }
 }

@@ -10,6 +10,10 @@ import simulation.model.Wall;
 
 public class SimpleSimulationDrawer implements SimulationDrawer{
 
+    private double getScale(GraphicsContext surface, Simulation simulation){
+        return 0;
+    }
+
     @Override
     public void draw(GraphicsContext surface, Simulation simulation) {
         // todo: use the graphic context object to draw the simulation state

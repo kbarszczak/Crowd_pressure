@@ -55,7 +55,7 @@ public class SocialForcePhysicalModel implements PhysicalModel{
         Vector positionChange = agent.getVelocity().multiplyByConstantCopy(timeQuantum/300.0);
         agent.setNextPosition(agent.getPosition().add(positionChange.toPoint()));
 
-        System.out.println();
+//        System.out.println();
     }
 
     private Vector calculateAgentImpactForce(Agent agent, List<Agent> allAgents){

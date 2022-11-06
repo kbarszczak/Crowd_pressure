@@ -55,36 +55,25 @@ public class MathUtil {
         for(Agent obstacle : agents){
             if(agent == obstacle) continue;
             double mutualAngle = MathUtil.calculateMutualAngle(agent.getPosition(), obstacle.getPosition());
-            double distance = MathUtil.calculateDistanceBetweenPoints(agent.getPosition(), obstacle.getPosition()); // todo: calculate accurate distance
+            double distance = MathUtil.calculateDistanceBetweenPoints(agent.getPosition(), obstacle.getPosition());
             double relaxationAngle = Math.atan(obstacle.getAgentRadius() / distance);
 
-            if(angleToCheck >= mutualAngle - relaxationAngle && angleToCheck <= mutualAngle + relaxationAngle ){
+            if(isAngleBetween(angleToCheck, mutualAngle-relaxationAngle, mutualAngle+relaxationAngle)){
                 distanceToCollision = Math.min(distance, distanceToCollision);
             }
         }
-
-//        System.out.printf("\nCheck walls for angle [%f] from (%d, %d):\n", angleToCheck*180/Math.PI, (int)agent.getPosition().getX(), (int)agent.getPosition().getY());
 
         // check walls
         for(Wall wall : board.getWalls()){
             double mutualAngleStart = MathUtil.calculateMutualAngle(agent.getPosition(), wall.getStartPoint());
             double mutualAngleEnd = MathUtil.calculateMutualAngle(agent.getPosition(), wall.getEndPoint());
 
-
-//            System.out.printf("Start (%f) End (%f)\n", mutualAngleStart*180/Math.PI, mutualAngleEnd*180/Math.PI);
-
             if(isAngleBetween(angleToCheck, mutualAngleStart, mutualAngleEnd)){
-//                System.out.printf("Crossing wall: (%d, %d) --- (%d, %d)\n", (int)wall.getStartPoint().getX(), (int)wall.getStartPoint().getY(), (int)wall.getEndPoint().getX(), (int)wall.getEndPoint().getY());
-
                 Point crossingPoint = MathUtil.getCrossingPoint(agent.getPosition(), angleToCheck, wall.getStartPoint(), wall.getEndPoint());
                 double distance = MathUtil.calculateDistanceBetweenPoints(agent.getPosition(), crossingPoint);
                 distanceToCollision = Math.min(distance, distanceToCollision);
-            }else{
-//                System.out.printf("Not crossing wall: (%d, %d) --- (%d, %d)\n", (int)wall.getStartPoint().getX(), (int)wall.getStartPoint().getY(), (int)wall.getEndPoint().getX(), (int)wall.getEndPoint().getY());
             }
         }
-
-//        System.out.println("-------------------------------------");
 
         return distanceToCollision;
     }

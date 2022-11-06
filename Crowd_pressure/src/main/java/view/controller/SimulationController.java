@@ -91,7 +91,7 @@ public class SimulationController implements Initializable {
     @FXML
     private void reset(){
         try{
-            // todo: reset the simulation
+            initialize(null, null);
         }catch (Exception exception){
             // todo: handle reset exception
         }
@@ -132,6 +132,7 @@ public class SimulationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try{
+            if(simulation != null) simulation.close();
             simulation = new Simulation(
                     (int)simulationCanvas.getWidth(),
                     (int)simulationCanvas.getHeight(),

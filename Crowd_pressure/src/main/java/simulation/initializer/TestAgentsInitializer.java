@@ -25,7 +25,7 @@ public class TestAgentsInitializer implements AgentsInitializer {
         for(int i=0; i<agentCount; ++i){
             double x = random.nextDouble(width/6.0+10, width/5.0+10);
             double y = random.nextDouble(height/2.0-30, height/2.0+30);
-            double agentMass = random.nextDouble(50, 100);
+            double agentMass = random.nextDouble(60, 100);
 
             agents.add(new Agent(
                     new Point(x, y),
@@ -34,7 +34,7 @@ public class TestAgentsInitializer implements AgentsInitializer {
                     random.nextDouble(1, 2),
                     random.nextDouble(1.22173, 1.26626),
                     random.nextDouble(100, 101),
-                    random.nextDouble(0.4, 0.6), // todo: change time
+                    random.nextDouble(0.4, 0.6),
                     new Point(width/2.0, height/2.0)
             ));
         }
