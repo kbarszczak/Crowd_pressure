@@ -8,9 +8,6 @@ import java.util.List;
 
 public class DirectionHeuristic implements Heuristic{
 
-    private static String buf;
-    private static String bufBest;
-
     @Override
     public void apply(Agent agent, List<Agent> allAgents, Board board) throws Exception {
         double bestAngle = agent.getVelocity().getAngle(), step = 0.0174533; // 1 degree

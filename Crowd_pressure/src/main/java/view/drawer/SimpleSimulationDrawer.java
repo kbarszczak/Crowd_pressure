@@ -26,6 +26,9 @@ public class SimpleSimulationDrawer implements SimulationDrawer{
             double radius = agent.getAgentRadius();
             surface.fillOval(position.getX(), position.getY(), radius, radius);
 
+            if(agent.isStopped()) continue;
+            if(0==0) continue;
+
             // todo: delete below
             // current velocity
             double angle = agent.getVelocity().getAngle();

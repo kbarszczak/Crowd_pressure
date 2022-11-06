@@ -56,7 +56,7 @@ public class SimulationController implements Initializable {
     private Canvas simulationCanvas;
 
     public SimulationController() {
-        this.timeline = new Timeline(new KeyFrame(Duration.millis(50), this::step));
+        this.timeline = new Timeline(new KeyFrame(Duration.millis(10), this::step));
         this.timeline.setCycleCount(Timeline.INDEFINITE);
         this.simulation = null;
     }
@@ -136,11 +136,11 @@ public class SimulationController implements Initializable {
             simulation = new Simulation(
                     (int)simulationCanvas.getWidth(),
                     (int)simulationCanvas.getHeight(),
-                    3,
-                    new SocialForcePhysicalModel(1000, timeline.getKeyFrames().get(0).getTime().toMillis()), // the physical model used in the simulation
+                    20,
+                    new SocialForcePhysicalModel(1000, 3, timeline.getKeyFrames().get(0).getTime().toMillis()), // the physical model used in the simulation
                     List.of(new DistanceHeuristic(), new DirectionHeuristic()), // the list of heuristics used in the simulation (don't pass null value)
-                    //new MultiThreadComputingEngine(), // the computing engine responsible for doing all the calculations
-                    new SingleThreadComputingEngine(), // the computing engine responsible for doing all the calculations
+                    new MultiThreadComputingEngine(), // the computing engine responsible for doing all the calculations
+                    //new SingleThreadComputingEngine(), // the computing engine responsible for doing all the calculations
                     new TestBoardInitializer(), // the object that is responsible for initializing the board
                     new TestAgentsInitializer() // the object that is responsible for initializing the agent
             );

@@ -137,7 +137,7 @@ class MathUtilTest {
                 0.5,
                 new Point(100, 200)
         );
-        List<Agent> agentList = List.of(agent, new Agent(new Point(2, 0), 60, 0.5, 6, 150, 450, 0.5, new Point(100, 200)));
+        List<Agent> agentList = List.of(new Agent(new Point(2, 0), 60, 0.5, 6, 150, 450, 0.5, new Point(100, 200)));
         Wall wall1 = new Wall(new Point(4.95, 1.05), new Point(2, 4));
         Wall wall2 = new Wall(new Point(0, 0), new Point(3, 3));
         Board board = new Board(300, 300, List.of(wall1, wall2));

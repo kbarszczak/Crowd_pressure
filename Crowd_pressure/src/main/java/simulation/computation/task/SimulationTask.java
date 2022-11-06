@@ -28,14 +28,17 @@ public class SimulationTask implements Task{
         for(Agent agent : computationAgents){
             if(agent.isStopped()) continue;
             for(Heuristic heuristic : heuristics){
-                heuristic.apply(agent, allAgents, board);
+                heuristic.apply(agent, allAgents.stream().filter(p -> !p.isStopped() && p!=agent).toList(), board);
             }
-            physicalModel.apply(agent, allAgents, board);
+            physicalModel.apply(agent, allAgents.stream().filter(p -> !p.isStopped() && p!=agent).toList(), board);
         }
     }
 
     @Override
     public void cleanUp() {
-        for(Agent agent : computationAgents) agent.prepareToNextStep();
+        for(Agent agent : computationAgents) {
+            if(agent.isStopped()) continue;
+            agent.prepareToNextStep();
+        }
     }
 }

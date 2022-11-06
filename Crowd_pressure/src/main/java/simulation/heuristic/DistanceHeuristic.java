@@ -6,7 +6,7 @@ import utils.MathUtil;
 
 import java.util.List;
 
-public class DistanceHeuristic implements Heuristic{
+public class DistanceHeuristic implements Heuristic {
 
     @Override
     public void apply(Agent agent, List<Agent> allAgents, Board board) throws Exception {

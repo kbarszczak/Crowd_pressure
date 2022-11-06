@@ -42,6 +42,10 @@ public class MathUtil {
         return getCrossingPoint(sourcePoint, Math.atan(-1/lineCoefficient), straightStart, straightEnd);
     }
 
+    public static boolean isInsideCircle(Point pointToCheck, Point center, double radius){
+        return calculateDistanceBetweenPoints(pointToCheck, center) < radius;
+    }
+
     public static boolean isAngleBetween(double angleToVerify, double angle1, double angle2){
         double a = Math.min(angle1, angle2);
         double b = Math.max(angle1, angle2);
@@ -53,7 +57,6 @@ public class MathUtil {
         // check obstacles
         double distanceToCollision = agent.getAgentMaxVisionDistance();
         for(Agent obstacle : agents){
-            if(agent == obstacle) continue;
             double mutualAngle = MathUtil.calculateMutualAngle(agent.getPosition(), obstacle.getPosition());
             double distance = MathUtil.calculateDistanceBetweenPoints(agent.getPosition(), obstacle.getPosition());
             double relaxationAngle = Math.atan(obstacle.getAgentRadius() / distance);
