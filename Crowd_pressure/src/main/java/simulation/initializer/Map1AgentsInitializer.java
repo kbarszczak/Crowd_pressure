@@ -31,10 +31,10 @@ public class Map1AgentsInitializer implements AgentsInitializer {
                     new Point(x, y),
                     agentMass,
                     agentMass/50.0,
-                    random.nextDouble(3, 4),
-                    random.nextDouble(1.22173, 1.39626),
-                    random.nextDouble(200, Math.max(width, height)),
-                    random.nextDouble(0.4, 0.6),
+                    random.nextDouble(1.5, 2),
+                    random.nextDouble(1.2, 1.3),
+                    random.nextDouble(100, 105),
+                    random.nextDouble(0.45, 0.55),
                     new Point(4/5.0*width, height/2.0)
             ));
         }

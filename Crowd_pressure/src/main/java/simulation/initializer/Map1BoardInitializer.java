@@ -19,12 +19,12 @@ public class Map1BoardInitializer implements BoardInitializer{
 
         result.getWalls().add(new Wall(
                 new Point(width/2.0, height-1),
-                new Point(width/2.0, (height-1)/2.0 + 10))
+                new Point(width/2.0, (height-1)/2.0 + 3))
         );
 
         result.getWalls().add(new Wall(
                 new Point(width/2.0, 0),
-                new Point(width/2.0, (height-1)/2.0 - 10))
+                new Point(width/2.0, (height-1)/2.0 - 3))
         );
 
         return result;
