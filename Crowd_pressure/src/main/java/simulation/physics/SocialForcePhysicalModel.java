@@ -2,7 +2,6 @@ package simulation.physics;
 
 import simulation.model.*;
 import utils.MathUtil;
-import view.SimulationApplication;
 
 import java.util.List;
 
@@ -25,47 +24,20 @@ public class SocialForcePhysicalModel implements PhysicalModel{
             return;
         }
 
-        if(SimulationApplication.DEBUG_MODE) System.out.println("Agent [ " + agent.getAgentMass() + " ]");
-        if(SimulationApplication.DEBUG_MODE) System.out.println("---------- Heuristics impact:");
-        if(SimulationApplication.DEBUG_MODE) System.out.printf("Desired velocity: (%f, %f) ~ (%f, %f)\n", agent.getDesiredVelocity().getValue(), agent.getDesiredVelocity().getAngle(), agent.getDesiredVelocity().toPoint().getX(), agent.getDesiredVelocity().toPoint().getY());
-        if(SimulationApplication.DEBUG_MODE) System.out.printf("Velocity: (%f, %f) ~ (%f, %f)\n", agent.getVelocity().getValue(), agent.getVelocity().getAngle(), agent.getVelocity().toPoint().getX(), agent.getVelocity().toPoint().getY());
-
+        // acceleration from desired speed
         Vector acceleration = agent.getDesiredVelocity().subtract(agent.getVelocity());
-
-        if(SimulationApplication.DEBUG_MODE) System.out.printf("Acceleration (des - comfortable): (%f, %f) ~ (%f, %f)\n", acceleration.getValue(), acceleration.getAngle(), acceleration.toPoint().getX(), acceleration.toPoint().getY());
-
         acceleration.multiplyByConstant(1 / agent.getAgentRelaxationTime());
 
-        if(SimulationApplication.DEBUG_MODE) System.out.printf("Acceleration (previous * coefficient): (%f, %f) ~ (%f, %f)\n", acceleration.getValue(), acceleration.getAngle(), acceleration.toPoint().getX(), acceleration.toPoint().getY());
-        if(SimulationApplication.DEBUG_MODE) System.out.println("Coefficient: " + (1 / agent.getAgentRelaxationTime()));
-        if(SimulationApplication.DEBUG_MODE) System.out.println("---------- Obstacle impact:");
-
+        // acceleration from other agents impact
         Vector obstacleImpactAcceleration = calculateAgentImpactForce(agent, allAgents);
-
-        if(SimulationApplication.DEBUG_MODE) System.out.printf("ObstacleImpactAcceleration (all): (%f, %f) ~ (%f, %f)\n", obstacleImpactAcceleration.getValue(), obstacleImpactAcceleration.getAngle(), obstacleImpactAcceleration.toPoint().getX(), obstacleImpactAcceleration.toPoint().getY());
-
         obstacleImpactAcceleration.multiplyByConstant(1 / agent.getAgentMass());
-
-        if(SimulationApplication.DEBUG_MODE) System.out.printf("ObstacleImpactAcceleration (all*coefficient): (%f, %f) ~ (%f, %f)\n", obstacleImpactAcceleration.getValue(), obstacleImpactAcceleration.getAngle(), obstacleImpactAcceleration.toPoint().getX(), obstacleImpactAcceleration.toPoint().getY());
-        if(SimulationApplication.DEBUG_MODE) System.out.println("Coefficient: " + (1 / agent.getAgentMass()));
-
         acceleration =  acceleration.add(obstacleImpactAcceleration);
 
-        if(SimulationApplication.DEBUG_MODE) System.out.printf("Acceleration (previous acc + obstacle impact): (%f, %f) ~ (%f, %f)\n", acceleration.getValue(), acceleration.getAngle(), acceleration.toPoint().getX(), acceleration.toPoint().getY());
-        if(SimulationApplication.DEBUG_MODE) System.out.println("---------- Wall impact:");
-
+        // acceleration from wall impact
         Vector wallImpactAcceleration = calculateWallImpactForce(agent, board.getWalls());
-
-        if(SimulationApplication.DEBUG_MODE) System.out.printf("WallImpactAcceleration (all): (%f, %f) ~ (%f, %f)\n", wallImpactAcceleration.getValue(), wallImpactAcceleration.getAngle(), wallImpactAcceleration.toPoint().getX(), wallImpactAcceleration.toPoint().getY());
-
         wallImpactAcceleration.multiplyByConstant(1 / agent.getAgentMass());
-
-        if(SimulationApplication.DEBUG_MODE) System.out.printf("WallImpactAcceleration (all*coefficient): (%f, %f) ~ (%f, %f)\n", wallImpactAcceleration.getValue(), wallImpactAcceleration.getAngle(), wallImpactAcceleration.toPoint().getX(), wallImpactAcceleration.toPoint().getY());
-        if(SimulationApplication.DEBUG_MODE) System.out.println("Coefficient: " + (1 / agent.getAgentMass()));
-
         acceleration = acceleration.add(wallImpactAcceleration);
 
-        if(SimulationApplication.DEBUG_MODE) System.out.printf("Acceleration (previous acc + wall impact): (%f, %f) ~ (%f, %f)\n", acceleration.getValue(), acceleration.getAngle(), acceleration.toPoint().getX(), acceleration.toPoint().getY());
 
         // apply changes on the agent
         Vector velocityChange = acceleration.multiplyByConstantCopy(timeQuantum/1000.0);
@@ -73,8 +45,6 @@ public class SocialForcePhysicalModel implements PhysicalModel{
 
         Vector positionChange = agent.getVelocity().multiplyByConstantCopy(timeQuantum/1000.0);
         agent.setNextPosition(agent.getPosition().add(positionChange.toPoint()));
-
-        if(SimulationApplication.DEBUG_MODE) System.out.println("------------------------------------------------------------");
     }
 
     private Vector calculateAgentImpactForce(Agent agent, List<Agent> allAgents){

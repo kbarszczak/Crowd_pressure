@@ -1,7 +1,5 @@
 package view.controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +17,6 @@ import simulation.computation.ComputingEngine;
 import simulation.computation.MultiThreadComputingEngine;
 import simulation.computation.SingleThreadComputingEngine;
 import simulation.initializer.*;
-import view.SimulationApplication;
 import view.drawer.SimpleSimulationDrawer;
 
 import java.net.URL;

@@ -5,64 +5,22 @@ import javafx.scene.paint.Color;
 import simulation.Simulation;
 import simulation.model.Agent;
 import simulation.model.Point;
-import simulation.model.Vector;
 import simulation.model.Wall;
-import view.SimulationApplication;
 
 public class SimpleSimulationDrawer implements SimulationDrawer{
 
     @Override
     public void draw(GraphicsContext surface, Simulation simulation) {
-        // todo: use the graphic context object to draw the simulation state
         surface.clearRect(0, 0, surface.getCanvas().getWidth(), surface.getCanvas().getHeight());
 
         for(Agent agent : simulation.getAgents()){
-            if(agent.getVelocity().getValue() < agent.getAgentComfortableSpeed()) surface.setFill(Color.RED);
+            if(agent.getVelocity().getValue() < agent.getAgentComfortableSpeed()/3.0) surface.setFill(Color.RED);
+            else if(agent.getVelocity().getValue() < agent.getAgentComfortableSpeed()/2.0) surface.setFill(Color.ORANGE);
             else surface.setFill(Color.GREEN);
 
             Point position = agent.getPosition();
             double radius = agent.getAgentRadius();
             surface.fillOval(position.getX()-radius, position.getY()-radius, 2*radius, 2*radius);
-
-            if(agent.isStopped()) continue;
-            if(SimulationApplication.DEBUG_MODE){
-                // todo: delete below
-                // current velocity
-                double angle = agent.getVelocity().getAngle();
-                double value = 300;
-                Point point = new Vector(value, angle).toPoint();
-                double x = position.getX() + point.getX();
-                double y = position.getY() + point.getY();
-                surface.setStroke(Color.RED);
-                surface.strokeLine(position.getX(), position.getY(), x, y);
-
-                // desired position line
-                surface.setStroke(Color.BLUE);
-                surface.strokeLine(position.getX(), position.getY(), agent.getAgentDesiredPosition().getX(), agent.getAgentDesiredPosition().getY());
-
-                // desired point
-                surface.setFill(Color.GREEN);
-                surface.fillOval(agent.getAgentDesiredPosition().getX(), agent.getAgentDesiredPosition().getY(), 3, 3);
-
-                // desired velocity line
-                Vector tmpVec = agent.getDesiredVelocity();
-                tmpVec.setValue(300);
-                point = tmpVec.toPoint();
-                surface.setStroke(Color.PINK);
-                surface.strokeLine(position.getX(), position.getY(), position.getX()+point.getX(), position.getY()+point.getY());
-
-                // view angles
-                surface.setStroke(Color.MAGENTA);
-                tmpVec = agent.getDesiredVelocity();
-                tmpVec.setValue(30000);
-                tmpVec.setAngle(tmpVec.getAngle() - agent.getAgentVisionAngle());
-                point = tmpVec.toPoint();
-                surface.strokeLine(position.getX(), position.getY(), position.getX()+point.getX(), position.getY()+point.getY());
-
-                tmpVec.setAngle(tmpVec.getAngle() + 2*agent.getAgentVisionAngle());
-                point = tmpVec.toPoint();
-                surface.strokeLine(position.getX(), position.getY(), position.getX()+point.getX(), position.getY()+point.getY());
-            }
         }
 
         surface.setStroke(Color.BLACK);

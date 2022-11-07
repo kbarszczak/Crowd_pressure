@@ -11,8 +11,6 @@ import java.util.Objects;
 
 public class SimulationApplication extends Application {
 
-    public static final boolean DEBUG_MODE = false;
-
     @Override
     public void start(Stage stage) throws IOException {
         // prepare the FXML loader
