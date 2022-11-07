@@ -7,7 +7,7 @@ import simulation.physics.PhysicalModel;
 
 import java.util.List;
 
-public class SimulationTask implements Task{
+public class SimulationTask implements Task {
 
     private final PhysicalModel physicalModel;
     private final List<Heuristic> heuristics;
@@ -25,19 +25,19 @@ public class SimulationTask implements Task{
 
     @Override
     public void execute() throws Exception {
-        for(Agent agent : computationAgents){
-            if(agent.isStopped()) continue;
-            for(Heuristic heuristic : heuristics){
-                heuristic.apply(agent, allAgents.stream().filter(p -> !p.isStopped() && p!=agent).toList(), board);
+        for (Agent agent : computationAgents) {
+            if (agent.isStopped()) continue;
+            for (Heuristic heuristic : heuristics) {
+                heuristic.apply(agent, allAgents.stream().filter(p -> !p.isStopped() && p != agent).toList(), board);
             }
-            physicalModel.apply(agent, allAgents.stream().filter(p -> !p.isStopped() && p!=agent).toList(), board);
+            physicalModel.apply(agent, allAgents.stream().filter(p -> !p.isStopped() && p != agent).toList(), board);
         }
     }
 
     @Override
     public void cleanUp() {
-        for(Agent agent : computationAgents) {
-            if(agent.isStopped()) continue;
+        for (Agent agent : computationAgents) {
+            if (agent.isStopped()) continue;
             agent.prepareToNextStep();
         }
     }

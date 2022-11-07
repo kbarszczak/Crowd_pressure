@@ -20,7 +20,7 @@ public class SimulationApplication extends Application {
         // load css stylesheet
         String css = Objects.requireNonNull(getClass().getResource("/styles/configuration-view.css")).toExternalForm();
 
-        // create sceen
+        // create screen
         Scene scene = new Scene(root); // create scene that visualizes GUI
         scene.getStylesheets().add(css); // set up stylesheet
 
@@ -33,9 +33,9 @@ public class SimulationApplication extends Application {
     }
 
     public static void main(String[] args) {
-        try{
+        try {
             launch(args);
-        }catch (Exception exception){
+        } catch (Exception exception) {
             System.out.println("Unknown exception occurred. Details: " + exception.getMessage() + ". Application shuts down.");
             exception.printStackTrace();
         }

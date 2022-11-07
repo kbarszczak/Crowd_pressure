@@ -19,39 +19,39 @@ public class Vector {
     }
 
     public void setValue(double value) {
-        if(value < 0) throw new IllegalStateException("Value cannot be negative");
+        if (value < 0) throw new IllegalStateException("Value cannot be negative");
         this.value = value;
     }
 
     public void setAngle(double angle) {
-        while (angle < 0){
-            angle += 2*Math.PI;
+        while (angle < 0) {
+            angle += 2 * Math.PI;
         }
-        while (angle > 2*Math.PI){
-            angle -= 2*Math.PI;
+        while (angle > 2 * Math.PI) {
+            angle -= 2 * Math.PI;
         }
         this.angle = angle;
     }
 
-    public Vector add(Vector vector){
+    public Vector add(Vector vector) {
         return new Vector(
-                Math.sqrt(Math.pow(value, 2) + Math.pow(vector.value, 2) + 2*value*vector.value*Math.cos(vector.angle - angle)),
-                angle + Math.atan2(vector.value*Math.sin(vector.angle - angle), value + vector.value*Math.cos(vector.angle - angle))
+                Math.sqrt(Math.pow(value, 2) + Math.pow(vector.value, 2) + 2 * value * vector.value * Math.cos(vector.angle - angle)),
+                angle + Math.atan2(vector.value * Math.sin(vector.angle - angle), value + vector.value * Math.cos(vector.angle - angle))
         );
     }
 
-    public Vector subtract(Vector vector){
+    public Vector subtract(Vector vector) {
         return new Vector(
-                Math.sqrt(Math.pow(value, 2) + Math.pow(vector.value, 2) - 2*value*vector.value*Math.cos(angle - vector.angle)),
-                angle - Math.atan2(vector.value*Math.sin(vector.angle - angle), value - vector.value*Math.cos(vector.angle - angle))
+                Math.sqrt(Math.pow(value, 2) + Math.pow(vector.value, 2) - 2 * value * vector.value * Math.cos(angle - vector.angle)),
+                angle - Math.atan2(vector.value * Math.sin(vector.angle - angle), value - vector.value * Math.cos(vector.angle - angle))
         );
     }
 
-    public Vector multiplyByConstantCopy(double constant){
-        return new Vector(value*constant, angle);
+    public Vector multiplyByConstantCopy(double constant) {
+        return new Vector(value * constant, angle);
     }
 
-    public void multiplyByConstant(double constant){
+    public void multiplyByConstant(double constant) {
         value *= constant;
     }
 
@@ -61,7 +61,7 @@ public class Vector {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Vector vector){
+        if (obj instanceof Vector vector) {
             return Double.compare(vector.value, value) == 0 && Double.compare(vector.angle, angle) == 0;
         }
         return false;

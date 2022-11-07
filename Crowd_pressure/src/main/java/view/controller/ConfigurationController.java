@@ -27,7 +27,7 @@ public class ConfigurationController implements Initializable {
         Multi_thread
     }
 
-    public enum Map{
+    public enum Map {
         Test_map,
         Map_1
     }
@@ -52,8 +52,8 @@ public class ConfigurationController implements Initializable {
 
     @FXML
     public void submit(ActionEvent event) {
-        try{
-            int agentCount = (int)countSlider.getValue();
+        try {
+            int agentCount = (int) countSlider.getValue();
             double scaleCoefficient = scaleSlider.getValue();
             double destinationRadius = radiusSlider.getValue();
             double delayMs = delaySlider.getValue();
@@ -61,14 +61,14 @@ public class ConfigurationController implements Initializable {
             BoardInitializer boardInitializer = null;
             AgentsInitializer agentsInitializer = null;
 
-            switch(engineComboBox.getSelectionModel().getSelectedItem()){
+            switch (engineComboBox.getSelectionModel().getSelectedItem()) {
                 case Single_thread -> engine = new SingleThreadComputingEngine();
                 case Multi_thread -> engine = new MultiThreadComputingEngine();
             }
 
-            if(engine == null) throw new Exception("Engine is null");
+            if (engine == null) throw new Exception("Engine is null");
 
-            switch (mapComboBox.getSelectionModel().getSelectedItem()){
+            switch (mapComboBox.getSelectionModel().getSelectedItem()) {
                 case Map_1 -> {
                     agentsInitializer = new Map1AgentsInitializer();
                     boardInitializer = new Map1BoardInitializer();
@@ -79,14 +79,14 @@ public class ConfigurationController implements Initializable {
                 }
             }
 
-            if(agentsInitializer == null){
+            if (agentsInitializer == null) {
                 engine.close();
                 throw new Exception("Either Agents or Board initializer is null");
             }
 
             // read css and get stage
             String css = Objects.requireNonNull(getClass().getResource("/styles/simulation-view.css")).toExternalForm();
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             // leading view and setting up controller
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/simulation-view.fxml"));
@@ -115,7 +115,7 @@ public class ConfigurationController implements Initializable {
             stage.fullScreenProperty().addListener((ov, ab, t1) -> controller.scaleDrawer());
             stage.setScene(scene);
             stage.show();
-        }catch (Exception exception){
+        } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");

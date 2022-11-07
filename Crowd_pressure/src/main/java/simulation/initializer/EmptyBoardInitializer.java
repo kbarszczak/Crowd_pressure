@@ -7,10 +7,10 @@ import simulation.model.Wall;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmptyBoardInitializer implements BoardInitializer{
+public class EmptyBoardInitializer implements BoardInitializer {
 
     @Override
-    public Board initialize(int width, int height) throws Exception{
+    public Board initialize(int width, int height) throws Exception {
         List<Wall> walls = new ArrayList<>();
         walls.add(new Wall(new Point(0, 0), new Point(0, height)));
         walls.add(new Wall(new Point(0, height), new Point(width, height)));

@@ -1,7 +1,6 @@
 package view.drawer;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.stage.Stage;
 import simulation.Simulation;
 
 public interface SimulationDrawer {

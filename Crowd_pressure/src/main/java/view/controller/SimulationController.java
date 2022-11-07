@@ -58,10 +58,11 @@ public class SimulationController {
     private Pane simulationPane;
 
     @FXML
-    private void start(){
-        try{
+    private void start() {
+        try {
             timeline.play();
-        }catch (Exception exception){
+            throw new Exception();
+        } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
@@ -70,10 +71,10 @@ public class SimulationController {
     }
 
     @FXML
-    private void stop(){
-        try{
+    private void stop() {
+        try {
             timeline.stop();
-        }catch (Exception exception){
+        } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
@@ -82,12 +83,12 @@ public class SimulationController {
     }
 
     @FXML
-    private void reset(){
-        try{
+    private void reset() {
+        try {
             timeline.stop();
             simulation.restoreInitState();
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);
-        }catch (Exception exception){
+        } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
@@ -97,13 +98,13 @@ public class SimulationController {
     }
 
     @FXML
-    private void configurator(ActionEvent event){
-        try{
+    private void configurator(ActionEvent event) {
+        try {
             // close the simulation
             close();
 
             // get stage
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             // load the view and the css
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/configuration-view.fxml"));
@@ -118,7 +119,7 @@ public class SimulationController {
             stage.setTitle("Crowd pressure configuration");
             stage.setScene(scene);
             stage.show();
-        }catch (Exception exception){
+        } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
@@ -127,21 +128,22 @@ public class SimulationController {
     }
 
     @FXML
-    private void exit(){
-        try{
+    private void exit() {
+        try {
             Stage stage = (Stage) exitButton.getScene().getWindow();
             stage.close();
-        }catch (Exception ignore){} // the exception is handled by the close() method
+        } catch (Exception ignore) {
+        } // the exception is handled by the close() method
     }
 
     @FXML
-    private void changeHeuristics(ActionEvent event){
-        try{
+    private void changeHeuristics(ActionEvent event) {
+        try {
             List<Heuristic> heuristics = new ArrayList<>();
-            if(directionCheckBox.isSelected()) heuristics.add(new DirectionHeuristic());
-            if(distanceCheckBox.isSelected()) heuristics.add(new DistanceHeuristic());
+            if (directionCheckBox.isSelected()) heuristics.add(new DirectionHeuristic());
+            if (distanceCheckBox.isSelected()) heuristics.add(new DistanceHeuristic());
             simulation.setHeuristics(heuristics);
-        }catch (Exception exception){
+        } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
@@ -150,14 +152,14 @@ public class SimulationController {
     }
 
     @FXML
-    private void changeEngine(ActionEvent event){
-        try{
-            if(singleRadioButton.isSelected()){
+    private void changeEngine(ActionEvent event) {
+        try {
+            if (singleRadioButton.isSelected()) {
                 simulation.setEngine(new SingleThreadComputingEngine());
-            }else if(multiRadioButton.isSelected()){
+            } else if (multiRadioButton.isSelected()) {
                 simulation.setEngine(new MultiThreadComputingEngine());
             }
-        }catch (Exception exception){
+        } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
@@ -165,20 +167,22 @@ public class SimulationController {
         }
     }
 
-    public void scaleDrawer(){
-        try{
-            drawer.scale((int)simulationPane.getWidth(), (int)simulationPane.getHeight(), simulationCanvas.getGraphicsContext2D(), simulation);
-        }catch (Exception ignore){}
+    public void scaleDrawer() {
+        try {
+            drawer.scale((int) simulationPane.getWidth(), (int) simulationPane.getHeight(), simulationCanvas.getGraphicsContext2D(), simulation);
+        } catch (Exception ignore) {
+        }
     }
 
-    public void initialize(int agentCount, double scaleCoefficient, double destinationRadius, double delayMs, ComputingEngine engine, AgentsInitializer agentsInitializer, BoardInitializer boardInitializer, SimulationDrawer drawer) throws IllegalStateException{
-        if(simulation != null) throw new IllegalStateException("Cannot initialize controller because the controller is already initialized");
+    public void initialize(int agentCount, double scaleCoefficient, double destinationRadius, double delayMs, ComputingEngine engine, AgentsInitializer agentsInitializer, BoardInitializer boardInitializer, SimulationDrawer drawer) throws IllegalStateException {
+        if (simulation != null)
+            throw new IllegalStateException("Cannot initialize controller because the controller is already initialized");
 
         this.timeline = new Timeline(new KeyFrame(new Duration(delayMs), this::step));
         this.timeline.setCycleCount(Timeline.INDEFINITE);
         this.simulation = new Simulation(
-                (int)simulationCanvas.getWidth(),
-                (int)simulationCanvas.getHeight(),
+                (int) simulationCanvas.getWidth(),
+                (int) simulationCanvas.getHeight(),
                 agentCount,
                 new SocialForcePhysicalModel(scaleCoefficient, destinationRadius, delayMs),
                 List.of(new DistanceHeuristic(), new DirectionHeuristic()),
@@ -188,30 +192,30 @@ public class SimulationController {
         );
         this.drawer = drawer;
         this.drawer.draw(simulationCanvas.getGraphicsContext2D(), this.simulation);
-        this.drawer.scale((int)simulationPane.getWidth(), (int)simulationPane.getHeight(), simulationCanvas.getGraphicsContext2D(), simulation);
+        this.drawer.scale((int) simulationPane.getWidth(), (int) simulationPane.getHeight(), simulationCanvas.getGraphicsContext2D(), simulation);
 
-        if(engine instanceof MultiThreadComputingEngine){
+        if (engine instanceof MultiThreadComputingEngine) {
             multiRadioButton.selectedProperty().setValue(true);
-        }else if(engine instanceof SingleThreadComputingEngine){
+        } else if (engine instanceof SingleThreadComputingEngine) {
             singleRadioButton.selectedProperty().setValue(true);
         }
     }
 
     public void close() {
-        try{
+        try {
             timeline.stop();
             simulation.close();
-        }catch (Exception exception){
+        } catch (Exception exception) {
             Platform.exit();
         }
     }
 
-    private void step(ActionEvent event){
-        try{
+    private void step(ActionEvent event) {
+        try {
             simulation.step(); // do all the necessary calculations in the simulation
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation); // draw the simulation state on the canvas. In other words, visualize the simulations state
-        }catch (Exception exception){
-            System.out.println("Step() method generated the following exception: " + exception.getClass().getName() +". Details: " + exception.getMessage());
+        } catch (Exception exception) {
+            System.out.println("Step() method generated the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
         }
     }
 }

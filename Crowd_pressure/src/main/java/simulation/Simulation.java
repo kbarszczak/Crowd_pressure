@@ -22,23 +22,29 @@ public class Simulation implements Closeable {
     private List<Heuristic> heuristics;
     private ComputingEngine engine;
 
-    public Simulation(int width, int height, int agentCount, PhysicalModel physicalModel, List<Heuristic> heuristics, ComputingEngine engine, BoardInitializer boardInitializer, AgentsInitializer agentInitializer){
+    public Simulation(int width, int height, int agentCount, PhysicalModel physicalModel, List<Heuristic> heuristics, ComputingEngine engine, BoardInitializer boardInitializer, AgentsInitializer agentInitializer) {
         this.physicalModel = physicalModel;
         this.heuristics = heuristics;
         this.engine = engine;
 
-        try{
+        try {
             this.board = boardInitializer.initialize(width, height);
-        }catch (Exception exception){
+        } catch (Exception exception) {
             System.out.println("Exception during board initialization. Empty board was created. Details: " + exception.getMessage());
-            try{this.board = new EmptyBoardInitializer().initialize(width, height);} catch (Exception ignore){}
+            try {
+                this.board = new EmptyBoardInitializer().initialize(width, height);
+            } catch (Exception ignore) {
+            }
         }
 
-        try{
+        try {
             this.agents = agentInitializer.initialize(agentCount, this.board);
-        }catch (Exception exception){
+        } catch (Exception exception) {
             System.out.println("Exception during agents initialization. Empty agent list was created. Details: " + exception.getMessage());
-            try{this.agents = new Map1AgentsInitializer().initialize(agentCount, this.board);} catch (Exception ignore){}
+            try {
+                this.agents = new Map1AgentsInitializer().initialize(agentCount, this.board);
+            } catch (Exception ignore) {
+            }
         }
     }
 
@@ -51,10 +57,10 @@ public class Simulation implements Closeable {
     }
 
     public void setEngine(ComputingEngine engine) {
-        try{
+        try {
             this.engine.close();
             this.engine = engine;
-        }catch (Exception exception){
+        } catch (Exception exception) {
             System.out.println("Could not change the computing engine");
         }
     }
@@ -67,15 +73,15 @@ public class Simulation implements Closeable {
         return board;
     }
 
-    public void step(){
-        try{
+    public void step() {
+        try {
             engine.compute(agents, board, physicalModel, heuristics);
-        }catch (Exception exception){
+        } catch (Exception exception) {
             System.out.println("Computation error. Details: " + exception.getMessage());
         }
     }
 
-    public void restoreInitState() throws Exception{
+    public void restoreInitState() throws Exception {
         // todo: restore init simulation state
     }
 

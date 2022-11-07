@@ -10,7 +10,7 @@ import simulation.physics.PhysicalModel;
 import java.io.IOException;
 import java.util.List;
 
-public class SingleThreadComputingEngine implements ComputingEngine{
+public class SingleThreadComputingEngine implements ComputingEngine {
 
     @Override
     public void compute(List<Agent> agents, Board board, PhysicalModel physicalModel, List<Heuristic> heuristics) throws Exception {
@@ -20,5 +20,6 @@ public class SingleThreadComputingEngine implements ComputingEngine{
     }
 
     @Override
-    public void close() throws IOException {}
+    public void close() throws IOException {
+    }
 }

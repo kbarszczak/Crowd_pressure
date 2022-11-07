@@ -25,7 +25,7 @@ public class MultiThreadComputingEngine implements ComputingEngine {
     }
 
     public MultiThreadComputingEngine(int threadCount) {
-        if(threadCount <= 0) throw new IllegalStateException("Thread count has to be positive");
+        if (threadCount <= 0) throw new IllegalStateException("Thread count has to be positive");
         this.executor = Executors.newFixedThreadPool(threadCount);
         this.threadCount = threadCount;
     }
@@ -33,18 +33,18 @@ public class MultiThreadComputingEngine implements ComputingEngine {
     @Override
     public void compute(List<Agent> agents, Board board, PhysicalModel physicalModel, List<Heuristic> heuristics) throws Exception {
         // initial calculations
-        int groupSize = Math.max(4, (int)Math.ceil(agents.size() / (double)threadCount));
-        CountDownLatch cdl = new CountDownLatch((int)Math.ceil(agents.size() / (double)groupSize));
+        int groupSize = Math.max(4, (int) Math.ceil(agents.size() / (double) threadCount));
+        CountDownLatch cdl = new CountDownLatch((int) Math.ceil(agents.size() / (double) groupSize));
         List<Task> tasks = new ArrayList<>();
 
         // divide tasks equally
-        for(int i=0; i<threadCount; ++i) {
+        for (int i = 0; i < threadCount; ++i) {
             // create new task
             SimulationTask task = new SimulationTask(
                     physicalModel,
                     heuristics,
                     agents,
-                    agents.subList(i*groupSize, Math.min(i * groupSize + groupSize, agents.size())),
+                    agents.subList(i * groupSize, Math.min(i * groupSize + groupSize, agents.size())),
                     board
             );
 
@@ -55,7 +55,7 @@ public class MultiThreadComputingEngine implements ComputingEngine {
             tasks.add(task);
 
             // break the loop when tasks are divided
-            if((i+1)*groupSize >= agents.size()) break;
+            if ((i + 1) * groupSize >= agents.size()) break;
         }
 
         cdl.await(); // wait for all threads to finish its tasks
@@ -64,6 +64,6 @@ public class MultiThreadComputingEngine implements ComputingEngine {
 
     @Override
     public void close() throws IOException {
-        if(!executor.isShutdown()) executor.shutdown();
+        if (!executor.isShutdown()) executor.shutdown();
     }
 }

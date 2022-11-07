@@ -7,8 +7,8 @@ public class Agent {
     // modifiable
     private int index;
     private boolean isStopped;
-    private final Point []position;
-    private final Vector []velocity;
+    private final Point[] position;
+    private final Vector[] velocity;
     private final Vector desiredVelocity;
 
     // not modifiable
@@ -83,15 +83,15 @@ public class Agent {
     }
 
     public void setNextPosition(Point position) {
-        this.position[(index+1) % 2] = position;
+        this.position[(index + 1) % 2] = position;
     }
 
     public void setNextVelocity(Vector velocity) {
-        this.velocity[(index+1) % 2] = velocity;
+        this.velocity[(index + 1) % 2] = velocity;
     }
 
-    public void prepareToNextStep(){
-        index = (index+1) % 2;
+    public void prepareToNextStep() {
+        index = (index + 1) % 2;
     }
 
     public void stop() {

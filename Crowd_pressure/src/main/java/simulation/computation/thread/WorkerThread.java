@@ -4,7 +4,7 @@ import simulation.computation.task.Task;
 
 import java.util.concurrent.CountDownLatch;
 
-public class WorkerThread implements Runnable{
+public class WorkerThread implements Runnable {
 
     private final Task task;
     private final CountDownLatch cdl;
@@ -21,11 +21,11 @@ public class WorkerThread implements Runnable{
 
     @Override
     public void run() {
-        try{
+        try {
             task.execute();
-        }catch (Exception exception){
+        } catch (Exception exception) {
             System.out.println("Computation thread \"" + Thread.currentThread().getName() + "\" is dead. Details: " + exception.getMessage());
         }
-        if(cdl != null) cdl.countDown();
+        if (cdl != null) cdl.countDown();
     }
 }

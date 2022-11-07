@@ -20,21 +20,21 @@ public class Point {
         return y;
     }
 
-    public Point add(Point point){
-        return new Point(x+point.x, y+point.y);
+    public Point add(Point point) {
+        return new Point(x + point.x, y + point.y);
     }
 
-    public Point subtract(Point point){
-        return new Point(x-point.x, y-point.y);
+    public Point subtract(Point point) {
+        return new Point(x - point.x, y - point.y);
     }
 
-    public Vector toVector(){
-        return new Vector(Math.sqrt(x*x + y*y), Math.atan2(y, x));
+    public Vector toVector() {
+        return new Vector(Math.sqrt(x * x + y * y), Math.atan2(y, x));
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Point point){
+        if (obj instanceof Point point) {
             return Math.abs(point.x - x) < DELTA && Math.abs(point.y - y) < DELTA;
         }
         return false;
@@ -42,6 +42,6 @@ public class Point {
 
     @Override
     public String toString() {
-        return "Point("+ x + ", " + y + ')';
+        return "Point(" + x + ", " + y + ')';
     }
 }
