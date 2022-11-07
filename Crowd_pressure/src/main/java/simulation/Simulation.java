@@ -12,10 +12,12 @@ import simulation.physics.PhysicalModel;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation implements Closeable {
 
+    private final List<Agent> initAgents;
     private List<Agent> agents;
     private Board board;
     private PhysicalModel physicalModel;
@@ -46,6 +48,8 @@ public class Simulation implements Closeable {
             } catch (Exception ignore) {
             }
         }
+        this.initAgents = new ArrayList<>();
+        for(Agent agent : agents) initAgents.add(new Agent(agent));
     }
 
     public void setPhysicalModel(PhysicalModel physicalModel) {
@@ -82,7 +86,8 @@ public class Simulation implements Closeable {
     }
 
     public void restoreInitState() throws Exception {
-        // todo: restore init simulation state
+        agents.clear();
+        for(Agent agent : initAgents) agents.add(new Agent(agent));
     }
 
     @Override

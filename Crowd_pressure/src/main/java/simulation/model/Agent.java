@@ -38,6 +38,19 @@ public class Agent {
         this.agentDesiredPosition = agentDesiredPosition;
     }
 
+    public Agent(Agent agent){
+        this(
+            new Point(agent.getPosition().getX(), agent.getPosition().getY()),
+            agent.agentMass,
+            agent.agentRadius,
+            agent.agentComfortableSpeed,
+            agent.agentVisionAngle,
+            agent.agentMaxVisionDistance,
+            agent.agentRelaxationTime,
+            new Point(agent.agentDesiredPosition.getX(), agent.agentDesiredPosition.getY())
+        );
+    }
+
     public boolean isStopped() {
         return isStopped;
     }
