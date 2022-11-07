@@ -61,12 +61,12 @@ public class SimulationController {
     private void start() {
         try {
             timeline.play();
-            throw new Exception();
         } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
             alert.setContentText("Cannot start the simulation due to the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
+            alert.showAndWait();
         }
     }
 
@@ -79,6 +79,7 @@ public class SimulationController {
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
             alert.setContentText("Cannot stop the simulation due to the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
+            alert.showAndWait();
         }
     }
 
@@ -93,6 +94,7 @@ public class SimulationController {
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
             alert.setContentText("Cannot reset the simulation due to the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
+            alert.showAndWait();
             timeline.play();
         }
     }
@@ -124,6 +126,7 @@ public class SimulationController {
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
             alert.setContentText("The following exception occurred: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
+            alert.showAndWait();
         }
     }
 
@@ -148,6 +151,7 @@ public class SimulationController {
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
             alert.setContentText("Cannot change the heuristic because of the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
+            alert.showAndWait();
         }
     }
 
@@ -164,6 +168,7 @@ public class SimulationController {
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
             alert.setContentText("Cannot change the computing engine because of the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
+            alert.showAndWait();
         }
     }
 

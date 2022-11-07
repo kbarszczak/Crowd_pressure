@@ -120,6 +120,7 @@ public class ConfigurationController implements Initializable {
             alert.setTitle("Error");
             alert.setHeaderText("An Exception occurred");
             alert.setContentText("During the initialization the following error occurred: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
+            alert.showAndWait();
         }
     }
 
