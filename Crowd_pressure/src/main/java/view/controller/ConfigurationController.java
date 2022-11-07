@@ -1,5 +1,7 @@
 package view.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+import simulation.computation.ComputingEngine;
+import simulation.computation.MultiThreadComputingEngine;
+import simulation.computation.SingleThreadComputingEngine;
+import simulation.initializer.*;
+import view.SimulationApplication;
+import view.drawer.SimpleSimulationDrawer;
 
 import java.net.URL;
 import java.util.Objects;
@@ -20,12 +28,12 @@ import java.util.ResourceBundle;
 
 public class ConfigurationController implements Initializable {
 
-    private enum Engines{
+    public enum Engine {
         Single_thread,
         Multi_thread
     }
 
-    private enum Map{
+    public enum Map{
         Test_map,
         Map_1
     }
@@ -40,39 +48,79 @@ public class ConfigurationController implements Initializable {
     private Slider countSlider, scaleSlider, radiusSlider, delaySlider;
 
     @FXML
-    private ComboBox<String> engineComboBox, mapComboBox;
+    private ComboBox<Engine> engineComboBox;
+
+    @FXML
+    private ComboBox<Map> mapComboBox;
 
     @FXML
     private Button submitButton;
 
+    @FXML
     public void submit(ActionEvent event) {
         try{
-            // todo: verify data and change view
-            // prepare the FXML loader
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/simulation-view.fxml"));
-            // load the view
-            Parent root = loader.load();
-            // get the stage
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            // get the controller for the loaded view
-            SimulationController controller = loader.getController();
+            int agentCount = (int)countSlider.getValue();
+            double scaleCoefficient = scaleSlider.getValue();
+            double destinationRadius = radiusSlider.getValue();
+            double delayMs = delaySlider.getValue();
+            ComputingEngine engine = null;
+            BoardInitializer boardInitializer = null;
+            AgentsInitializer agentsInitializer = null;
 
-            // todo: configure controller here
+            switch(engineComboBox.getSelectionModel().getSelectedItem()){
+                case Single_thread -> engine = new SingleThreadComputingEngine();
+                case Multi_thread -> engine = new MultiThreadComputingEngine();
+            }
 
-            // load css stylesheet
+            if(engine == null) throw new Exception("Engine is null");
+
+            switch (mapComboBox.getSelectionModel().getSelectedItem()){
+                case Map_1 -> {
+                    agentsInitializer = new Map1AgentsInitializer();
+                    boardInitializer = new Map1BoardInitializer();
+                }
+                case Test_map -> {
+                    agentsInitializer = new TestAgentsInitializer();
+                    boardInitializer = new TestBoardInitializer();
+                }
+            }
+
+            if(agentsInitializer == null){
+                engine.close();
+                throw new Exception("Either Agents or Board initializer is null");
+            }
+
+            // read css and get stage
             String css = Objects.requireNonNull(getClass().getResource("/styles/simulation-view.css")).toExternalForm();
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 
-            Scene scene = new Scene(root); // create scene that visualizes GUI
-            scene.widthProperty().addListener(p -> controller.scaleDrawer()); // scale the drawer and the canvas when window changes its width
-            scene.heightProperty().addListener(p -> controller.scaleDrawer()); // scale the drawer and the canvas when window changes its height
-            scene.getStylesheets().add(css); // set up stylesheet
+            // leading view and setting up controller
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/simulation-view.fxml"));
+            Parent root = loader.load();
+            SimulationController controller = loader.getController();
+            controller.initialize(
+                    agentCount,
+                    scaleCoefficient,
+                    destinationRadius,
+                    delayMs,
+                    engine,
+                    agentsInitializer,
+                    boardInitializer,
+                    new SimpleSimulationDrawer()
+            );
 
-            stage.setTitle("Crowd pressure simulation"); // set up the stage title
-            stage.setMinHeight(449);
-            stage.setMinWidth(616);
-            stage.setScene(scene); // set up main view/scene
-            stage.setOnHidden(p -> controller.close()); // run the controller close method when the stage is closing
-            stage.show(); // show the view
+            // creating scene
+            Scene scene = new Scene(root);
+            scene.widthProperty().addListener((ov, ab, t1) -> controller.scaleDrawer());
+            scene.heightProperty().addListener((ov, ab, t1) -> controller.scaleDrawer());
+            scene.getStylesheets().add(css);
+
+            // initializing stage
+            stage.setTitle("Crowd pressure simulation");
+            stage.setOnHidden(p -> controller.close());
+            stage.fullScreenProperty().addListener((ov, ab, t1) -> controller.scaleDrawer());
+            stage.setScene(scene);
+            stage.show();
         }catch (Exception exception){
             // todo: handle the exception
             exception.printStackTrace();
@@ -81,9 +129,9 @@ public class ConfigurationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        engineComboBox.getItems().addAll(Engines.Single_thread.toString(), Engines.Multi_thread.toString());
-        engineComboBox.getSelectionModel().select(1);
-        mapComboBox.getItems().addAll(Map.Map_1.toString(), Map.Test_map.toString());
+        engineComboBox.getItems().addAll(Engine.Multi_thread, Engine.Single_thread);
+        engineComboBox.getSelectionModel().select(0);
+        mapComboBox.getItems().addAll(Map.Map_1, Map.Test_map);
         mapComboBox.getSelectionModel().select(0);
     }
 }

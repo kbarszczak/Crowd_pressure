@@ -76,13 +76,10 @@ public class SimpleSimulationDrawer implements SimulationDrawer{
 
     @Override
     public void scale(int width, int height, GraphicsContext surface, Simulation simulation) {
+        if(width<simulation.getBoard().getWidth() || height<simulation.getBoard().getHeight()) return;
+
         double scaleX = width / surface.getCanvas().getWidth();
         double scaleY = height / surface.getCanvas().getHeight();
-
-//        System.out.println(scaleX + " " +scaleY);
-//        System.out.println(width + " " + height);
-//        System.out.println(surface.getCanvas().getWidth() + " " + surface.getCanvas().getHeight());
-//        System.out.println();
 
         surface.scale(scaleX, scaleY);
         surface.getCanvas().setWidth(surface.getCanvas().getWidth() * scaleX);

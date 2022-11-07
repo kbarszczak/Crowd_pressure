@@ -16,18 +16,20 @@ public class SimulationApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         // prepare the FXML loader
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("configuration-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/configuration-view.fxml"));
         // load the view
         Parent root = loader.load();
         // load css stylesheet
         String css = Objects.requireNonNull(getClass().getResource("/styles/configuration-view.css")).toExternalForm();
 
+        // create sceen
         Scene scene = new Scene(root); // create scene that visualizes GUI
         scene.getStylesheets().add(css); // set up stylesheet
 
+        // set up stage
         stage.setTitle("Crowd pressure configuration"); // set up the stage title
-        stage.setMinHeight(450);
-        stage.setMinWidth(400);
+        stage.setMinHeight(480);
+        stage.setMinWidth(600);
         stage.setScene(scene); // set up main view/scene
         stage.show(); // show the view
     }

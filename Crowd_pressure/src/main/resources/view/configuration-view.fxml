@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<FlowPane fx:id="mainFlowPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="450.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controller.ConfigurationController">
+<FlowPane fx:id="mainFlowPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="450.0" minWidth="600.0" orientation="VERTICAL" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controller.ConfigurationController">
    <children>
       <Label fx:id="welcomeLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="250.0" text="Crowd pressure configurator">
          <font>
@@ -17,7 +17,7 @@
       <FlowPane fx:id="countFlowPane" alignment="CENTER" orientation="VERTICAL" prefHeight="50.0" prefWidth="250.0">
          <children>
             <Label fx:id="agentCountLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="135.0" text="Agent count" />
-            <Slider fx:id="countSlider" blockIncrement="1.0" showTickLabels="true" value="50.0" />
+            <Slider fx:id="countSlider" blockIncrement="1.0" max="200.0" showTickLabels="true" value="100.0" />
          </children>
       </FlowPane>
       <FlowPane fx:id="scaleFlowPane" alignment="CENTER" orientation="VERTICAL" prefHeight="50.0" prefWidth="250.0">

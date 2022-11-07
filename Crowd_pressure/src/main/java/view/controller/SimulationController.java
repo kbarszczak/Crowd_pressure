@@ -6,7 +6,10 @@ import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
 
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -19,30 +22,28 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulation.Simulation;
+import simulation.computation.ComputingEngine;
 import simulation.computation.MultiThreadComputingEngine;
 import simulation.computation.SingleThreadComputingEngine;
 import simulation.heuristic.DirectionHeuristic;
 import simulation.heuristic.DistanceHeuristic;
-import simulation.initializer.Map1AgentsInitializer;
-import simulation.initializer.Map1BoardInitializer;
-import simulation.initializer.TestAgentsInitializer;
-import simulation.initializer.TestBoardInitializer;
+import simulation.heuristic.Heuristic;
+import simulation.initializer.*;
 import simulation.physics.SocialForcePhysicalModel;
-import view.drawer.SimpleSimulationDrawer;
 import view.drawer.SimulationDrawer;
 
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
+import java.util.Objects;
 
-public class SimulationController implements Initializable {
+public class SimulationController {
 
-    private final Timeline timeline;
+    private Timeline timeline;
     private SimulationDrawer drawer;
     private Simulation simulation;
 
     @FXML
-    private Button startButton, stopButton, resetButton, exitButton;
+    private Button startButton, stopButton, resetButton, exitButton, configuratorButton;
     @FXML
     private CheckBox directionCheckBox, distanceCheckBox;
     @FXML
@@ -58,18 +59,13 @@ public class SimulationController implements Initializable {
     @FXML
     private Pane simulationPane;
 
-    public SimulationController() {
-        this.timeline = new Timeline(new KeyFrame(Duration.millis(10), this::step));
-        this.timeline.setCycleCount(Timeline.INDEFINITE);
-        this.simulation = null;
-    }
-
     @FXML
     private void start(){
         try{
             timeline.play();
         }catch (Exception exception){
             // todo: handle start exception
+            exception.printStackTrace();
         }
     }
 
@@ -79,15 +75,47 @@ public class SimulationController implements Initializable {
             timeline.stop();
         }catch (Exception exception){
             // todo: handle stop exception
+            exception.printStackTrace();
         }
     }
 
     @FXML
     private void reset(){
         try{
-            // todo: write reset
+            timeline.stop();
+            simulation.restoreInitState();
+            drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);
         }catch (Exception exception){
             // todo: handle reset exception
+            exception.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void configurator(ActionEvent event){
+        try{
+            // close the simulation
+            close();
+
+            // get stage
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+            // load the view and the css
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/configuration-view.fxml"));
+            String css = Objects.requireNonNull(getClass().getResource("/styles/configuration-view.css")).toExternalForm();
+            Parent root = loader.load();
+
+            // create scene
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(css);
+
+            // set up stage
+            stage.setTitle("Crowd pressure configuration");
+            stage.setScene(scene);
+            stage.show();
+        }catch (Exception exception){
+            // todo: handle configuration exception
+            exception.printStackTrace();
         }
     }
 
@@ -98,15 +126,20 @@ public class SimulationController implements Initializable {
             stage.close();
         }catch (Exception exception){
             // todo: handle exit exception
+            exception.printStackTrace();
         }
     }
 
     @FXML
     private void changeHeuristics(ActionEvent event){
         try{
-            // todo: write change heuristics code
+            List<Heuristic> heuristics = new ArrayList<>();
+            if(directionCheckBox.isSelected()) heuristics.add(new DirectionHeuristic());
+            if(distanceCheckBox.isSelected()) heuristics.add(new DistanceHeuristic());
+            simulation.setHeuristics(heuristics);
         }catch (Exception exception){
             // todo: handle change heuristic exception
+            exception.printStackTrace();
         }
     }
 
@@ -120,39 +153,59 @@ public class SimulationController implements Initializable {
             }
         }catch (Exception exception){
             // todo: handle change engine exception
-        }
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try{
-            if(simulation != null) simulation.close();
-            simulation = new Simulation(
-                    (int)simulationCanvas.getWidth(),
-                    (int)simulationCanvas.getHeight(),
-                    10,
-                    new SocialForcePhysicalModel(1000, 3, timeline.getKeyFrames().get(0).getTime().toMillis()), // the physical model used in the simulation
-                    List.of(new DistanceHeuristic(), new DirectionHeuristic()), // the list of heuristics used in the simulation (don't pass null value)
-                    new MultiThreadComputingEngine(), // the computing engine responsible for doing all the calculations
-                    new Map1BoardInitializer(), // the object that is responsible for initializing the board
-                    new Map1AgentsInitializer() // the object that is responsible for initializing the agent
-            );
-            drawer = new SimpleSimulationDrawer();
-            drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);
-        }catch (Exception exception){
-            // todo: handle initialization exception
+            exception.printStackTrace();
         }
     }
 
     public void scaleDrawer(){
-        drawer.scale((int)simulationPane.getWidth(), (int)simulationPane.getHeight(), simulationCanvas.getGraphicsContext2D(), simulation);
+        try{
+            drawer.scale((int)simulationPane.getWidth(), (int)simulationPane.getHeight(), simulationCanvas.getGraphicsContext2D(), simulation);
+        }catch (Exception exception){
+            // todo: handle scale exception
+            exception.printStackTrace();
+        }
+    }
+
+    public void initialize(int agentCount, double scaleCoefficient, double destinationRadius, double delayMs, ComputingEngine engine, AgentsInitializer agentsInitializer, BoardInitializer boardInitializer, SimulationDrawer drawer) throws IllegalStateException{
+        try{
+            if(simulation != null) throw new IllegalStateException("Cannot initialize controller because the controller is already initialized");
+
+            this.timeline = new Timeline(new KeyFrame(new Duration(delayMs), this::step));
+            this.timeline.setCycleCount(Timeline.INDEFINITE);
+            this.simulation = new Simulation(
+                    (int)simulationCanvas.getWidth(),
+                    (int)simulationCanvas.getHeight(),
+                    agentCount,
+                    new SocialForcePhysicalModel(scaleCoefficient, destinationRadius, delayMs),
+                    List.of(new DistanceHeuristic(), new DirectionHeuristic()),
+                    engine,
+                    boardInitializer,
+                    agentsInitializer
+            );
+            this.drawer = drawer;
+            this.drawer.draw(simulationCanvas.getGraphicsContext2D(), this.simulation);
+            this.drawer.scale((int)simulationPane.getWidth(), (int)simulationPane.getHeight(), simulationCanvas.getGraphicsContext2D(), simulation);
+
+            if(engine instanceof MultiThreadComputingEngine){
+                multiRadioButton.selectedProperty().setValue(true);
+            }else if(engine instanceof SingleThreadComputingEngine){
+                singleRadioButton.selectedProperty().setValue(true);
+            }
+        } catch (IllegalStateException exception){
+            throw exception;
+        } catch (Exception exception){
+            // todo: catch the exception
+            exception.printStackTrace();
+        }
     }
 
     public void close() {
         try{
+            timeline.stop();
             simulation.close();
         }catch (Exception exception){
             System.out.println("Could not close the simulation. Details: " + exception.getMessage());
+            exception.printStackTrace();
         }
     }
 
@@ -162,6 +215,7 @@ public class SimulationController implements Initializable {
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation); // draw the simulation state on the canvas. In other words, visualize the simulations state
         }catch (Exception exception){
             // todo: handle step exception
+            exception.printStackTrace();
         }
     }
 }

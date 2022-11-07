@@ -75,6 +75,10 @@ public class Simulation implements Closeable {
         }
     }
 
+    public void restoreInitState() throws Exception{
+        // todo: restore init simulation state
+    }
+
     @Override
     public void close() throws IOException {
         engine.close();

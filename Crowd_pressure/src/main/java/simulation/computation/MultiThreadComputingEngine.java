@@ -64,6 +64,6 @@ public class MultiThreadComputingEngine implements ComputingEngine {
 
     @Override
     public void close() throws IOException {
-        executor.shutdown();
+        if(!executor.isShutdown()) executor.shutdown();
     }
 }
