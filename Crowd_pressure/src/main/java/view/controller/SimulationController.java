@@ -2,6 +2,7 @@ package view.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
@@ -11,10 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 
@@ -64,8 +62,10 @@ public class SimulationController {
         try{
             timeline.play();
         }catch (Exception exception){
-            // todo: handle start exception
-            exception.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("An Exception occurred");
+            alert.setContentText("Cannot start the simulation due to the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
         }
     }
 
@@ -74,8 +74,10 @@ public class SimulationController {
         try{
             timeline.stop();
         }catch (Exception exception){
-            // todo: handle stop exception
-            exception.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("An Exception occurred");
+            alert.setContentText("Cannot stop the simulation due to the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
         }
     }
 
@@ -86,8 +88,11 @@ public class SimulationController {
             simulation.restoreInitState();
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);
         }catch (Exception exception){
-            // todo: handle reset exception
-            exception.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("An Exception occurred");
+            alert.setContentText("Cannot reset the simulation due to the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
+            timeline.play();
         }
     }
 
@@ -114,8 +119,10 @@ public class SimulationController {
             stage.setScene(scene);
             stage.show();
         }catch (Exception exception){
-            // todo: handle configuration exception
-            exception.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("An Exception occurred");
+            alert.setContentText("The following exception occurred: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
         }
     }
 
@@ -124,10 +131,7 @@ public class SimulationController {
         try{
             Stage stage = (Stage) exitButton.getScene().getWindow();
             stage.close();
-        }catch (Exception exception){
-            // todo: handle exit exception
-            exception.printStackTrace();
-        }
+        }catch (Exception ignore){} // the exception is handled by the close() method
     }
 
     @FXML
@@ -138,8 +142,10 @@ public class SimulationController {
             if(distanceCheckBox.isSelected()) heuristics.add(new DistanceHeuristic());
             simulation.setHeuristics(heuristics);
         }catch (Exception exception){
-            // todo: handle change heuristic exception
-            exception.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("An Exception occurred");
+            alert.setContentText("Cannot change the heuristic because of the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
         }
     }
 
@@ -152,50 +158,42 @@ public class SimulationController {
                 simulation.setEngine(new MultiThreadComputingEngine());
             }
         }catch (Exception exception){
-            // todo: handle change engine exception
-            exception.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("An Exception occurred");
+            alert.setContentText("Cannot change the computing engine because of the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
         }
     }
 
     public void scaleDrawer(){
         try{
             drawer.scale((int)simulationPane.getWidth(), (int)simulationPane.getHeight(), simulationCanvas.getGraphicsContext2D(), simulation);
-        }catch (Exception exception){
-            // todo: handle scale exception
-            exception.printStackTrace();
-        }
+        }catch (Exception ignore){}
     }
 
     public void initialize(int agentCount, double scaleCoefficient, double destinationRadius, double delayMs, ComputingEngine engine, AgentsInitializer agentsInitializer, BoardInitializer boardInitializer, SimulationDrawer drawer) throws IllegalStateException{
-        try{
-            if(simulation != null) throw new IllegalStateException("Cannot initialize controller because the controller is already initialized");
+        if(simulation != null) throw new IllegalStateException("Cannot initialize controller because the controller is already initialized");
 
-            this.timeline = new Timeline(new KeyFrame(new Duration(delayMs), this::step));
-            this.timeline.setCycleCount(Timeline.INDEFINITE);
-            this.simulation = new Simulation(
-                    (int)simulationCanvas.getWidth(),
-                    (int)simulationCanvas.getHeight(),
-                    agentCount,
-                    new SocialForcePhysicalModel(scaleCoefficient, destinationRadius, delayMs),
-                    List.of(new DistanceHeuristic(), new DirectionHeuristic()),
-                    engine,
-                    boardInitializer,
-                    agentsInitializer
-            );
-            this.drawer = drawer;
-            this.drawer.draw(simulationCanvas.getGraphicsContext2D(), this.simulation);
-            this.drawer.scale((int)simulationPane.getWidth(), (int)simulationPane.getHeight(), simulationCanvas.getGraphicsContext2D(), simulation);
+        this.timeline = new Timeline(new KeyFrame(new Duration(delayMs), this::step));
+        this.timeline.setCycleCount(Timeline.INDEFINITE);
+        this.simulation = new Simulation(
+                (int)simulationCanvas.getWidth(),
+                (int)simulationCanvas.getHeight(),
+                agentCount,
+                new SocialForcePhysicalModel(scaleCoefficient, destinationRadius, delayMs),
+                List.of(new DistanceHeuristic(), new DirectionHeuristic()),
+                engine,
+                boardInitializer,
+                agentsInitializer
+        );
+        this.drawer = drawer;
+        this.drawer.draw(simulationCanvas.getGraphicsContext2D(), this.simulation);
+        this.drawer.scale((int)simulationPane.getWidth(), (int)simulationPane.getHeight(), simulationCanvas.getGraphicsContext2D(), simulation);
 
-            if(engine instanceof MultiThreadComputingEngine){
-                multiRadioButton.selectedProperty().setValue(true);
-            }else if(engine instanceof SingleThreadComputingEngine){
-                singleRadioButton.selectedProperty().setValue(true);
-            }
-        } catch (IllegalStateException exception){
-            throw exception;
-        } catch (Exception exception){
-            // todo: catch the exception
-            exception.printStackTrace();
+        if(engine instanceof MultiThreadComputingEngine){
+            multiRadioButton.selectedProperty().setValue(true);
+        }else if(engine instanceof SingleThreadComputingEngine){
+            singleRadioButton.selectedProperty().setValue(true);
         }
     }
 
@@ -204,8 +202,7 @@ public class SimulationController {
             timeline.stop();
             simulation.close();
         }catch (Exception exception){
-            System.out.println("Could not close the simulation. Details: " + exception.getMessage());
-            exception.printStackTrace();
+            Platform.exit();
         }
     }
 
@@ -214,8 +211,7 @@ public class SimulationController {
             simulation.step(); // do all the necessary calculations in the simulation
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation); // draw the simulation state on the canvas. In other words, visualize the simulations state
         }catch (Exception exception){
-            // todo: handle step exception
-            exception.printStackTrace();
+            System.out.println("Step() method generated the following exception: " + exception.getClass().getName() +". Details: " + exception.getMessage());
         }
     }
 }

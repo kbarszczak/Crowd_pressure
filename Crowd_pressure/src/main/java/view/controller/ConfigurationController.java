@@ -7,10 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import simulation.computation.ComputingEngine;
@@ -119,8 +116,10 @@ public class ConfigurationController implements Initializable {
             stage.setScene(scene);
             stage.show();
         }catch (Exception exception){
-            // todo: handle the exception
-            exception.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("An Exception occurred");
+            alert.setContentText("During the initialization the following error occurred: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
         }
     }
 

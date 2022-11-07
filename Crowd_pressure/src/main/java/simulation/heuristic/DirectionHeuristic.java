@@ -13,7 +13,6 @@ public class DirectionHeuristic implements Heuristic{
         double bestAngle = agent.getVelocity().getAngle(), step = 0.0174533; // 1 degree
         Double bestDistance = null;
 
-        // todo: below for loop is slow - try to improve this
         for(double angle = (agent.getVelocity().getAngle()-agent.getAgentVisionAngle()); angle <= (agent.getVelocity().getAngle()+agent.getAgentVisionAngle()); angle += step){
             double angleNormalized = angle;
             while (angleNormalized < 0) angleNormalized += (Math.PI*2);
