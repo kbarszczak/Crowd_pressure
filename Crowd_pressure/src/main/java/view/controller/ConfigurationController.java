@@ -29,7 +29,8 @@ public class ConfigurationController implements Initializable {
 
     public enum Map {
         Test_map,
-        Map_1
+        Map_1,
+        Map_2
     }
 
     @FXML
@@ -72,6 +73,10 @@ public class ConfigurationController implements Initializable {
                 case Map_1 -> {
                     agentsInitializer = new Map1AgentsInitializer();
                     boardInitializer = new Map1BoardInitializer();
+                }
+                case Map_2 ->{
+                    agentsInitializer = new Map2AgentsInitializer();
+                    boardInitializer = new Map2BoardInitializer();
                 }
                 case Test_map -> {
                     agentsInitializer = new TestAgentsInitializer();
@@ -128,7 +133,7 @@ public class ConfigurationController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         engineComboBox.getItems().addAll(Engine.Multi_thread, Engine.Single_thread);
         engineComboBox.getSelectionModel().select(0);
-        mapComboBox.getItems().addAll(Map.Map_1, Map.Test_map);
+        mapComboBox.getItems().addAll(Map.Map_1, Map.Map_2, Map.Test_map);
         mapComboBox.getSelectionModel().select(0);
     }
 }
