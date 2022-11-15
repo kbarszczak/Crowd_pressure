@@ -1,4 +1,4 @@
-package simulation.initializer;
+package simulation.initializer.board;
 
 import simulation.model.Board;
 

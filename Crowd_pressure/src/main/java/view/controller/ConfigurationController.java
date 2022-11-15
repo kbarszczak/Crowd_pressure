@@ -13,7 +13,8 @@ import javafx.stage.Stage;
 import simulation.computation.ComputingEngine;
 import simulation.computation.MultiThreadComputingEngine;
 import simulation.computation.SingleThreadComputingEngine;
-import simulation.initializer.*;
+import simulation.initializer.agent.*;
+import simulation.initializer.board.*;
 import view.drawer.SimpleSimulationDrawer;
 
 import java.net.URL;
@@ -30,7 +31,9 @@ public class ConfigurationController implements Initializable {
     public enum Map {
         Test_map,
         Map_1,
-        Map_2
+        Map_2,
+        Map_3,
+        Map_4
     }
 
     @FXML
@@ -77,6 +80,14 @@ public class ConfigurationController implements Initializable {
                 case Map_2 ->{
                     agentsInitializer = new Map2AgentsInitializer();
                     boardInitializer = new Map2BoardInitializer();
+                }
+                case Map_3 ->{
+                    agentsInitializer = new Map3AgentsInitializer();
+                    boardInitializer = new Map3BoardInitializer();
+                }
+                case Map_4 ->{
+                    agentsInitializer = new Map4AgentsInitializer();
+                    boardInitializer = new Map4BoardInitializer();
                 }
                 case Test_map -> {
                     agentsInitializer = new TestAgentsInitializer();
@@ -133,7 +144,7 @@ public class ConfigurationController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         engineComboBox.getItems().addAll(Engine.Multi_thread, Engine.Single_thread);
         engineComboBox.getSelectionModel().select(0);
-        mapComboBox.getItems().addAll(Map.Map_1, Map.Map_2, Map.Test_map);
+        mapComboBox.getItems().addAll(Map.Map_1, Map.Map_2, Map.Map_3, Map.Map_4, Map.Test_map);
         mapComboBox.getSelectionModel().select(0);
     }
 }

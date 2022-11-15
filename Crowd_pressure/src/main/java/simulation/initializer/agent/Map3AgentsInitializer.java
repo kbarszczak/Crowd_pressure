@@ -1,5 +1,6 @@
-package simulation.initializer;
+package simulation.initializer.agent;
 
+import simulation.initializer.board.Map3BoardInitializer;
 import simulation.model.Agent;
 import simulation.model.Board;
 import simulation.model.Point;
@@ -8,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Map1AgentsInitializer implements AgentsInitializer {
+public class Map3AgentsInitializer implements AgentsInitializer {
 
     private final Random random;
 
-    public Map1AgentsInitializer() {
+    public Map3AgentsInitializer() {
         this.random = new Random();
     }
 
@@ -23,9 +24,9 @@ public class Map1AgentsInitializer implements AgentsInitializer {
         int width = board.getWidth();
         int height = board.getHeight();
         for (int i = 0; i < agentCount; ++i) {
-            double x = random.nextDouble(width / 4.0 - 20, width / 4.0 + 40);
-            double y = random.nextDouble(height / 2.0 - 30, height / 2.0 + 30);
-            double agentMass = random.nextDouble(50, 100);
+            double x = random.nextDouble(width / 2.0 - 120, width / 2.0 - 20);
+            double y = random.nextDouble(height / 2.0 - Map3BoardInitializer.TUNNEL_HEIGHT+2, height / 2.0 + Map3BoardInitializer.TUNNEL_HEIGHT-2);
+            double agentMass = random.nextDouble(60, 90);
 
             agents.add(new Agent(
                     new Point(x, y),
@@ -42,3 +43,4 @@ public class Map1AgentsInitializer implements AgentsInitializer {
     }
 
 }
+

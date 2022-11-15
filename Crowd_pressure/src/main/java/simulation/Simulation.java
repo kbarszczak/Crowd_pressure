@@ -2,10 +2,10 @@ package simulation;
 
 import simulation.computation.ComputingEngine;
 import simulation.heuristic.Heuristic;
-import simulation.initializer.AgentsInitializer;
-import simulation.initializer.BoardInitializer;
-import simulation.initializer.EmptyBoardInitializer;
-import simulation.initializer.Map1AgentsInitializer;
+import simulation.initializer.agent.AgentsInitializer;
+import simulation.initializer.board.BoardInitializer;
+import simulation.initializer.board.EmptyBoardInitializer;
+import simulation.initializer.agent.Map1AgentsInitializer;
 import simulation.model.Agent;
 import simulation.model.Board;
 import simulation.physics.PhysicalModel;

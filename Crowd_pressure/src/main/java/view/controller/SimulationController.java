@@ -26,7 +26,8 @@ import simulation.computation.SingleThreadComputingEngine;
 import simulation.heuristic.DirectionHeuristic;
 import simulation.heuristic.DistanceHeuristic;
 import simulation.heuristic.Heuristic;
-import simulation.initializer.*;
+import simulation.initializer.board.BoardInitializer;
+import simulation.initializer.agent.AgentsInitializer;
 import simulation.physics.SocialForcePhysicalModel;
 import view.drawer.SimulationDrawer;
 

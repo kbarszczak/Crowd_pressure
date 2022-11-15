@@ -43,9 +43,9 @@ public class SimpleSimulationDrawer implements SimulationDrawer{
     }
 
     private Color getColor(Agent agent){
-        double difference = Math.abs(agent.getVelocity().getValue() - agent.getAgentComfortableSpeed()) / (agent.getAgentComfortableSpeed());
-        difference *= 100;
-        if(difference >= 100) difference = 100;
-        return Color.rgb((int)((255*difference)/100), (int)((255 * (100 - difference)) / 100), 0);
+        //double difference = Math.abs(agent.getVelocity().getValue() - agent.getAgentComfortableSpeed()) / (agent.getAgentComfortableSpeed());
+        Color color = agent.getColor();
+        // todo: calculate proper color change
+        return color;
     }
 }

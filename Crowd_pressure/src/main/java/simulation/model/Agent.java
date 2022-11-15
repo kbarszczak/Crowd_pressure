@@ -1,5 +1,6 @@
 package simulation.model;
 
+import javafx.scene.paint.Color;
 import utils.MathUtil;
 
 public class Agent {
@@ -19,8 +20,9 @@ public class Agent {
     private final double agentMaxVisionDistance;
     private final double agentRelaxationTime;
     private final Point agentDesiredPosition;
+    private final Color color;
 
-    public Agent(Point initPosition, double agentMass, double agentRadius, double agentComfortableSpeed, double agentVisionAngle, double agentMaxVisionDistance, double agentRelaxationTime, Point agentDesiredPosition) {
+    public Agent(Point initPosition, double agentMass, double agentRadius, double agentComfortableSpeed, double agentVisionAngle, double agentMaxVisionDistance, double agentRelaxationTime, Point agentDesiredPosition, Color color) {
         // modifiable
         this.index = 0;
         this.isStopped = false;
@@ -36,6 +38,11 @@ public class Agent {
         this.agentMaxVisionDistance = agentMaxVisionDistance;
         this.agentRelaxationTime = agentRelaxationTime;
         this.agentDesiredPosition = agentDesiredPosition;
+        this.color = color;
+    }
+
+    public Agent(Point initPosition, double agentMass, double agentRadius, double agentComfortableSpeed, double agentVisionAngle, double agentMaxVisionDistance, double agentRelaxationTime, Point agentDesiredPosition) {
+       this(initPosition, agentMass, agentRadius, agentComfortableSpeed, agentVisionAngle, agentMaxVisionDistance, agentRelaxationTime, agentDesiredPosition, Color.RED);
     }
 
     public Agent(Agent agent){
@@ -47,7 +54,8 @@ public class Agent {
             agent.agentVisionAngle,
             agent.agentMaxVisionDistance,
             agent.agentRelaxationTime,
-            new Point(agent.agentDesiredPosition.getX(), agent.agentDesiredPosition.getY())
+            new Point(agent.agentDesiredPosition.getX(), agent.agentDesiredPosition.getY()),
+            agent.getColor()
         );
     }
 
@@ -93,6 +101,10 @@ public class Agent {
 
     public Point getAgentDesiredPosition() {
         return agentDesiredPosition;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public void setNextPosition(Point position) {
