@@ -35,7 +35,8 @@ public class ConfigurationController implements Initializable {
         Map_3,
         Map_4,
         Map_5,
-        Map_6
+        Map_6,
+        Map_7
     }
 
     @FXML
@@ -99,6 +100,10 @@ public class ConfigurationController implements Initializable {
                     agentsInitializer = new Map6AgentsInitializer();
                     boardInitializer = new Map6BoardInitializer();
                 }
+                case Map_7 ->{
+                    agentsInitializer = new Map7AgentsInitializer();
+                    boardInitializer = new Map7BoardInitializer();
+                }
                 case Test_map -> {
                     agentsInitializer = new TestAgentsInitializer();
                     boardInitializer = new TestBoardInitializer();
@@ -154,7 +159,7 @@ public class ConfigurationController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         engineComboBox.getItems().addAll(Engine.Multi_thread, Engine.Single_thread);
         engineComboBox.getSelectionModel().select(0);
-        mapComboBox.getItems().addAll(Map.Map_1, Map.Map_2, Map.Map_3, Map.Map_4, Map.Map_5, Map.Map_6, Map.Test_map);
+        mapComboBox.getItems().addAll(Map.Map_1, Map.Map_2, Map.Map_3, Map.Map_4, Map.Map_5, Map.Map_6, Map.Map_7, Map.Test_map);
         mapComboBox.getSelectionModel().select(0);
     }
 }
