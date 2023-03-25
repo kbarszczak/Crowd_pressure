@@ -59,7 +59,7 @@ public class MathUtil {
         double distanceToCollision = agent.getAgentMaxVisionDistance();
         for (Agent obstacle : agents) {
             double mutualAngle = MathUtil.calculateMutualAngle(agent.getPosition(), obstacle.getPosition());
-            double distance = MathUtil.calculateDistanceBetweenPoints(agent.getPosition(), obstacle.getPosition());
+            double distance = MathUtil.calculateDistanceBetweenPoints(agent.getPosition(), obstacle.getPosition()) + obstacle.getAgentRadius();
             double relaxationAngle = Math.atan(obstacle.getAgentRadius() / distance);
 
             if (isAngleBetween(angleToCheck, mutualAngle - relaxationAngle, mutualAngle + relaxationAngle)) {

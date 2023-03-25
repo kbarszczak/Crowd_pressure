@@ -32,7 +32,6 @@ public class SimpleSimulationDrawer implements SimulationDrawer{
     @Override
     public void scale(int width, int height, GraphicsContext surface, Simulation simulation) {
         if(width<simulation.getBoard().getWidth() || height<simulation.getBoard().getHeight()) return;
-
         double scaleX = width / surface.getCanvas().getWidth();
         double scaleY = height / surface.getCanvas().getHeight();
 
@@ -43,7 +42,6 @@ public class SimpleSimulationDrawer implements SimulationDrawer{
     }
 
     private Color getColor(Agent agent){
-        //double difference = Math.abs(agent.getVelocity().getValue() - agent.getAgentComfortableSpeed()) / (agent.getAgentComfortableSpeed());
         Color color = agent.getColor();
         // todo: calculate proper color change
         return color;
