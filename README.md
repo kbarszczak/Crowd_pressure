@@ -5,6 +5,7 @@ This project is the simulation of a crowd passing the narrow way. The implementa
 The configuration window:
 
 <img width="615" alt="window_configuration" src="https://user-images.githubusercontent.com/72699445/231693040-9647d912-53b4-4a9b-87f6-66d6569395b2.png">
+![image_1](https://user-images.githubusercontent.com/72699445/231693040-9647d912-53b4-4a9b-87f6-66d6569395b2.png)
 
 The simulation window:
 
