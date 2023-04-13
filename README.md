@@ -4,7 +4,7 @@ This project is the simulation of a crowd passing the narrow way. The implementa
 
 The configuration window:
 
-<img width="615" alt="window_configuration" style="display: block; margin: 0 auto" src="https://user-images.githubusercontent.com/72699445/231693040-9647d912-53b4-4a9b-87f6-66d6569395b2.png">
+<img width="615" alt="window_configuration" src="https://user-images.githubusercontent.com/72699445/231693040-9647d912-53b4-4a9b-87f6-66d6569395b2.png">
 
 The simulation window:
 
@@ -40,13 +40,13 @@ The simulation work is shown below screenshots
 
 <img width="752" alt="sim_1_1" src="https://user-images.githubusercontent.com/72699445/231701257-915101be-87cd-4f0c-8592-d9040ab66eda.png">
 
-<img width="605" alt="sim_1_4" src="https://user-images.githubusercontent.com/72699445/231701297-1e6cd61b-8da5-43c4-9964-fd9ef2a34289.png">
+<img width="752" alt="sim_1_4" src="https://user-images.githubusercontent.com/72699445/231701297-1e6cd61b-8da5-43c4-9964-fd9ef2a34289.png">
 
 2nd situation:
 
-<img width="562" alt="sim_2_1" src="https://user-images.githubusercontent.com/72699445/231701364-65d05388-bf35-4248-b1fc-36f128b3b177.png">
+<img width="752" alt="sim_2_1" src="https://user-images.githubusercontent.com/72699445/231701364-65d05388-bf35-4248-b1fc-36f128b3b177.png">
 
-<img width="530" alt="sim_2_3" src="https://user-images.githubusercontent.com/72699445/231701415-88b2be6e-8086-48a6-a757-07aae91f98d9.png">
+<img width="752" alt="sim_2_3" src="https://user-images.githubusercontent.com/72699445/231701415-88b2be6e-8086-48a6-a757-07aae91f98d9.png">
 
 ## Features
 
