@@ -1,11 +1,15 @@
 ![banner](https://user-images.githubusercontent.com/72699445/231688107-9d10af92-ed74-4461-bd5e-1902ec621f10.png)
 
-This project is the simulation of a crowd passing the narrow way. The implementation is based on [Social Force Model] (https://www.researchgate.net/publication/1947096_Social_Force_Model_for_Pedestrian_Dynamics) presented in 1998. The model is modified by implementing heuristics that modify the behavior of each agent. The following screenshots present the application layout.
+This project is the simulation of a crowd passing the narrow way. The implementation is based on ![Social Force Model] (https://www.researchgate.net/publication/1947096_Social_Force_Model_for_Pedestrian_Dynamics) presented in 1998. The model is modified by implementing heuristics that modify the behavior of each agent. The following screenshots present the application layout.
 
 The configuration window:
+
 <img width="615" alt="window_configuration" src="https://user-images.githubusercontent.com/72699445/231693040-9647d912-53b4-4a9b-87f6-66d6569395b2.png">
 
+![ss1]("https://user-images.githubusercontent.com/72699445/231693040-9647d912-53b4-4a9b-87f6-66d6569395b2.png")
+
 The simulation window:
+
 <img width="607" alt="window_simulation" src="https://user-images.githubusercontent.com/72699445/231693182-0e1c556f-475b-4c21-ab88-abe1eee03cfb.png">
 
 ## Motivation
