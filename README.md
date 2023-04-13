@@ -4,11 +4,11 @@ This project is the simulation of a crowd passing the narrow way. The implementa
 
 The configuration window:
 
-<img width="615" alt="window_configuration" src="https://user-images.githubusercontent.com/72699445/231693040-9647d912-53b4-4a9b-87f6-66d6569395b2.png">
+<img width="750" alt="window_configuration" src="https://user-images.githubusercontent.com/72699445/231693040-9647d912-53b4-4a9b-87f6-66d6569395b2.png">
 
 The simulation window:
 
-<img width="615" alt="window_simulation" src="https://user-images.githubusercontent.com/72699445/231693182-0e1c556f-475b-4c21-ab88-abe1eee03cfb.png">
+<img width="750" alt="window_simulation" src="https://user-images.githubusercontent.com/72699445/231693182-0e1c556f-475b-4c21-ab88-abe1eee03cfb.png">
 
 ## Motivation
 
@@ -58,7 +58,7 @@ The application architecture was designed to be as flexible as possible. Its des
 
 All of that is to achived by the design presented on the below simplified UML diagram:
 
-<img width="750" alt="sim_2_3" src="https://user-images.githubusercontent.com/72699445/231698047-95269729-ff12-4e5a-9d38-865f8dde7394.jpg">
+<img width="750" alt="desing_uml" src="https://user-images.githubusercontent.com/72699445/231698047-95269729-ff12-4e5a-9d38-865f8dde7394.jpg">
 
 ## Installation
 
