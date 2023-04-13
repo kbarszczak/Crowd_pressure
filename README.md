@@ -90,6 +90,7 @@ Before the installation, one may implement custom initializers for both the map 
 - delay in ms (since the simulation world is discrete the ticking time has to be specified. The lower the number the more precise the simulation is)
 - computation engine (it specifies whether the simulation runs on the single-thread or multi-thread engine)
 - map (this changes the simulation environment)
+
 After the setup process, run the simulation by pushing the start button.
 
 ## Contribute
