@@ -131,7 +131,7 @@ public class ConfigurationController implements Initializable {
                     engine,
                     agentsInitializer,
                     boardInitializer,
-                    new SimpleSimulationDrawer()
+                    new SimpleSimulationDrawer(destinationRadius)
             );
 
             // creating scene

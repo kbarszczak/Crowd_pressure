@@ -95,6 +95,7 @@ public class SimulationController {
             simulation.restoreInitState();
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);
             elapsedTicks = 0L;
+            setTime(0, false);
         } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
@@ -226,15 +227,20 @@ public class SimulationController {
             // do all the necessary calculations in the simulation
             double currentTime = timeline.currentTimeProperty().getValue().toSeconds() * elapsedTicks;
             if(!simulation.step()) {
-                timeText.setText(String.format("Simulation time %.2fs", currentTime)); // set current simulation time
+                setTime(currentTime, false); // set current simulation time
                 drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation); // draw the simulation state on the canvas. In other words, visualize the simulations state
                 elapsedTicks += 1;
             } else {
-                timeText.setText(String.format("Simulation finished in %.2fs", currentTime)); // set the total time of the simulation
+                setTime(currentTime, true); // set the total time of the simulation
                 stop();
             }
         } catch (Exception exception) {
             System.out.println("Step() method generated the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
         }
+    }
+
+    private void setTime(double time, boolean finished){
+        if(finished) timeText.setText(String.format("Simulation finished in %.2fs", time));
+        else timeText.setText(String.format("Simulation time %.2fs", time));
     }
 }
