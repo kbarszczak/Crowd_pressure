@@ -77,11 +77,13 @@ public class Simulation implements Closeable {
         return board;
     }
 
-    public void step() {
+    public boolean step() {
         try {
             engine.compute(agents, board, physicalModel, heuristics);
+            return agents.stream().allMatch(Agent::isStopped);
         } catch (Exception exception) {
             System.out.println("Computation error. Details: " + exception.getMessage());
+            return false;
         }
     }
 

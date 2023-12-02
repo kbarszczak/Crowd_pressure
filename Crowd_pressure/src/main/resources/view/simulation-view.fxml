@@ -12,19 +12,17 @@
 
 <!-- this fxml file is a view for the application-->
 
+<?import javafx.scene.text.Text?>
 <BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="450.0" minWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controller.SimulationController">
    <top>
       <FlowPane fx:id="menuFlowPane" alignment="CENTER" prefWrapLength="0.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="startButton" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="110.0" text="Start">
-            </Button>
-            <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stop" prefHeight="25.0" prefWidth="110.0" text="Stop">
-            </Button>
-            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#reset" prefHeight="25.0" prefWidth="110.0" text="Reset">
-            </Button>
+            <Button fx:id="startButton" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="110.0" text="Start"/>
+            <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stop" prefHeight="25.0" prefWidth="110.0" text="Stop"/>
+            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#reset" prefHeight="25.0" prefWidth="110.0" text="Reset"/>
             <Button fx:id="configuratorButton" mnemonicParsing="false" onAction="#configurator" prefHeight="25.0" prefWidth="110.0" text="Configurator" />
-            <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="110.0" text="Exit">
-            </Button>
+            <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="110.0" text="Exit"/>
+            <Text fx:id="timeText" text="Simulation time: 0s"/>
          </children>
          <opaqueInsets>
             <Insets />

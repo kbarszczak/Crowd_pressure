@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulation.Simulation;
@@ -37,6 +38,7 @@ import java.util.Objects;
 
 public class SimulationController {
 
+    private Long elapsedTicks = 0L;
     private Timeline timeline;
     private SimulationDrawer drawer;
     private Simulation simulation;
@@ -57,6 +59,8 @@ public class SimulationController {
     private Canvas simulationCanvas;
     @FXML
     private Pane simulationPane;
+    @FXML
+    private Text timeText;
 
     @FXML
     private void start() {
@@ -90,6 +94,7 @@ public class SimulationController {
             timeline.stop();
             simulation.restoreInitState();
             drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation);
+            elapsedTicks = 0L;
         } catch (Exception exception) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
@@ -218,8 +223,16 @@ public class SimulationController {
 
     private void step(ActionEvent event) {
         try {
-            simulation.step(); // do all the necessary calculations in the simulation
-            drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation); // draw the simulation state on the canvas. In other words, visualize the simulations state
+            // do all the necessary calculations in the simulation
+            double currentTime = timeline.currentTimeProperty().getValue().toSeconds() * elapsedTicks;
+            if(!simulation.step()) {
+                timeText.setText(String.format("Simulation time %.2fs", currentTime)); // set current simulation time
+                drawer.draw(simulationCanvas.getGraphicsContext2D(), simulation); // draw the simulation state on the canvas. In other words, visualize the simulations state
+                elapsedTicks += 1;
+            } else {
+                timeText.setText(String.format("Simulation finished in %.2fs", currentTime)); // set the total time of the simulation
+                stop();
+            }
         } catch (Exception exception) {
             System.out.println("Step() method generated the following exception: " + exception.getClass().getName() + ". Details: " + exception.getMessage());
         }
