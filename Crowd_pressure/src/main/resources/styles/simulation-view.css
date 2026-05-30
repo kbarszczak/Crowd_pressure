@@ -1,33 +1,56 @@
-.button{
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #000000;
-    -fx-border-width: 1px;
-    -fx-border-style: solid;
-    -fx-border-radius: 2px;
+.root {
+    -fx-background-color: #1E2330;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+    -fx-font-size: 12px;
+}
+
+.button {
+    -fx-background-color: #2E8B7B;
+    -fx-text-fill: #F5F7FA;
+    -fx-border-color: transparent;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-font-weight: bold;
 }
 
 .check-box,
 .radio-button,
 .button {
-    -fx-padding: 5px 10px;
-    -fx-border-insets: 5px;
-    -fx-background-insets: 5px;
+    -fx-padding: 6px 14px;
+    -fx-border-insets: 6px;
+    -fx-background-insets: 6px;
 }
 
-.button:hover{
-    -fx-background-color: #CCCCCC;
+.check-box,
+.radio-button {
+    -fx-text-fill: #D8DEE9;
+}
+
+.button:hover {
+    -fx-background-color: #3FAE9C;
+    -fx-effect: dropshadow(gaussian, rgba(63,174,156,0.45), 8, 0.2, 0, 2);
 }
 
 .check-box:hover,
 .radio-button:hover,
-.button:hover{
+.button:hover {
     -fx-cursor: hand;
 }
 
 #optionsFlowPane,
-#menuFlowPane{
-    -fx-padding: 10px 0;
-    -fx-border-color: #000000;
-    -fx-border-width: 1px;
-    -fx-border-style: solid none;
+#menuFlowPane {
+    -fx-padding: 12px 0;
+    -fx-background-color: #2A3142;
+    -fx-background-radius: 0;
+    -fx-border-color: #3FAE9C;
+    -fx-border-width: 0 0 2px 0;
+    -fx-border-style: solid;
+}
+
+#optionsFlowPane {
+    -fx-border-width: 2px 0 0 0;
+}
+
+.text {
+    -fx-fill: #F5F7FA;
 }

@@ -1,0 +1,68 @@
+.root {
+    -fx-background-color: #1E2330;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+    -fx-font-size: 12px;
+}
+
+.label {
+    -fx-text-fill: #D8DEE9;
+}
+
+#welcomeLabel {
+    -fx-text-fill: #3FAE9C;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-padding: 8px 0;
+}
+
+.button {
+    -fx-background-color: #2E8B7B;
+    -fx-text-fill: #F5F7FA;
+    -fx-border-color: transparent;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 6px 18px;
+    -fx-font-weight: bold;
+}
+
+.button:hover {
+    -fx-background-color: #3FAE9C;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(63,174,156,0.45), 8, 0.2, 0, 2);
+}
+
+.combo-box {
+    -fx-background-color: #2A3142;
+    -fx-text-fill: #F5F7FA;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-border-color: #3FAE9C;
+    -fx-border-width: 1px;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #F5F7FA;
+    -fx-background-color: #2A3142;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #2A3142;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #3FAE9C;
+}
+
+.slider .track {
+    -fx-background-color: #2A3142;
+    -fx-background-radius: 4px;
+}
+
+.slider .thumb {
+    -fx-background-color: #3FAE9C;
+    -fx-background-radius: 50%;
+}
+
+.slider .axis {
+    -fx-tick-label-fill: #D8DEE9;
+}

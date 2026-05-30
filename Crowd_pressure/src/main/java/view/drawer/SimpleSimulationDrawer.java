@@ -40,7 +40,8 @@ public class SimpleSimulationDrawer implements SimulationDrawer{
             surface.strokeOval(p.getX() - desiredPointRadius, p.getY() - desiredPointRadius, 2*desiredPointRadius, 2*desiredPointRadius);
         }
 
-        surface.setStroke(Color.BLACK);
+        surface.setStroke(Color.web("#3FAE9C"));
+        surface.setLineWidth(2);
         for(Wall wall : simulation.getBoard().getWalls()){
             Point start = wall.getStartPoint();
             Point end = wall.getEndPoint();
