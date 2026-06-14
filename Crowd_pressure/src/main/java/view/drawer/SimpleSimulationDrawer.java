@@ -13,6 +13,7 @@ import java.util.Set;
 public class SimpleSimulationDrawer implements SimulationDrawer{
 
     private final double desiredPointRadius;
+    private double maxObservedPressure = 1e-6;
 
     public SimpleSimulationDrawer(double desiredPointRadius) {
         this.desiredPointRadius = desiredPointRadius;
@@ -62,8 +63,9 @@ public class SimpleSimulationDrawer implements SimulationDrawer{
     }
 
     private Color getColor(Agent agent){
-        Color color = agent.getColor();
-        // todo: calculate proper color change
-        return color;
+        maxObservedPressure = Math.max(maxObservedPressure, agent.getPressure());
+        double ratio = Math.min(1.0, agent.getPressure() / maxObservedPressure);
+        double hue = (1 - ratio) * 120; // 120 = green (calm), 0 = red (high pressure)
+        return Color.hsb(hue, 0.85, 0.9);
     }
 }

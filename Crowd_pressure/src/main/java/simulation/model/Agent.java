@@ -8,6 +8,7 @@ public class Agent {
     // modifiable
     private int index;
     private boolean isStopped;
+    private double pressure;
     private final Point[] position;
     private final Vector[] velocity;
     private final Vector desiredVelocity;
@@ -26,6 +27,7 @@ public class Agent {
         // modifiable
         this.index = 0;
         this.isStopped = false;
+        this.pressure = 0;
         this.position = new Point[]{initPosition, new Point(initPosition.getX(), initPosition.getY())};
         this.velocity = new Vector[]{new Vector(agentComfortableSpeed, MathUtil.calculateMutualAngle(initPosition, agentDesiredPosition)), new Vector(0, 0)};
         this.desiredVelocity = new Vector(0, 0);
@@ -61,6 +63,14 @@ public class Agent {
 
     public boolean isStopped() {
         return isStopped;
+    }
+
+    public double getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(double pressure) {
+        this.pressure = pressure;
     }
 
     public Vector getVelocity() {

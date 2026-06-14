@@ -29,13 +29,15 @@ public class SocialForcePhysicalModel implements PhysicalModel {
         acceleration.multiplyByConstant(1 / agent.getAgentRelaxationTime());
 
         // acceleration from other agents impact
-        Vector obstacleImpactAcceleration = calculateAgentImpactForce(agent, allAgents);
-        obstacleImpactAcceleration.multiplyByConstant(1 / agent.getAgentMass());
+        Vector agentImpactForce = calculateAgentImpactForce(agent, allAgents);
+        Vector wallImpactForce = calculateWallImpactForce(agent, board.getWalls());
+        agent.setPressure(agentImpactForce.getValue() + wallImpactForce.getValue());
+
+        Vector obstacleImpactAcceleration = agentImpactForce.multiplyByConstantCopy(1 / agent.getAgentMass());
         acceleration = acceleration.add(obstacleImpactAcceleration);
 
         // acceleration from wall impact
-        Vector wallImpactAcceleration = calculateWallImpactForce(agent, board.getWalls());
-        wallImpactAcceleration.multiplyByConstant(1 / agent.getAgentMass());
+        Vector wallImpactAcceleration = wallImpactForce.multiplyByConstantCopy(1 / agent.getAgentMass());
         acceleration = acceleration.add(wallImpactAcceleration);
 
 

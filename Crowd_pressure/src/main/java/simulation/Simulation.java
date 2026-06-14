@@ -9,6 +9,7 @@ import simulation.initializer.agent.Map1AgentsInitializer;
 import simulation.model.Agent;
 import simulation.model.Board;
 import simulation.physics.PhysicalModel;
+import simulation.recorder.StepRecorder;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -23,6 +24,8 @@ public class Simulation implements Closeable {
     private PhysicalModel physicalModel;
     private List<Heuristic> heuristics;
     private ComputingEngine engine;
+    private StepRecorder recorder;
+    private long stepCount;
 
     public Simulation(int width, int height, int agentCount, PhysicalModel physicalModel, List<Heuristic> heuristics, ComputingEngine engine, BoardInitializer boardInitializer, AgentsInitializer agentInitializer) {
         this.physicalModel = physicalModel;
@@ -60,6 +63,10 @@ public class Simulation implements Closeable {
         this.heuristics = heuristics;
     }
 
+    public void setRecorder(StepRecorder recorder) {
+        this.recorder = recorder;
+    }
+
     public void setEngine(ComputingEngine engine) {
         try {
             this.engine.close();
@@ -79,6 +86,8 @@ public class Simulation implements Closeable {
 
     public boolean step() {
         try {
+            if (recorder != null) recorder.record(stepCount, agents);
+            stepCount++;
             engine.compute(agents, board, physicalModel, heuristics);
             return agents.stream().allMatch(Agent::isStopped);
         } catch (Exception exception) {
@@ -90,10 +99,12 @@ public class Simulation implements Closeable {
     public void restoreInitState() throws Exception {
         agents.clear();
         for(Agent agent : initAgents) agents.add(new Agent(agent));
+        stepCount = 0;
     }
 
     @Override
     public void close() throws IOException {
         engine.close();
+        if (recorder != null) recorder.close();
     }
 }
