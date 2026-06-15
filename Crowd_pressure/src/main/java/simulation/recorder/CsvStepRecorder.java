@@ -18,17 +18,20 @@ public class CsvStepRecorder implements StepRecorder {
 
     private final Writer writer;
     private final double timeQuantumSeconds;
+    private final int sampleEvery;
 
-    public CsvStepRecorder(Path outputFile, double timeQuantumMs) throws IOException {
+    public CsvStepRecorder(Path outputFile, double timeQuantumMs, int sampleEvery) throws IOException {
         Files.createDirectories(outputFile.toAbsolutePath().getParent());
         this.writer = new BufferedWriter(Files.newBufferedWriter(outputFile, StandardCharsets.UTF_8));
         this.timeQuantumSeconds = timeQuantumMs / 1000.0;
+        this.sampleEvery = Math.max(1, sampleEvery);
         this.writer.write(HEADER);
         this.writer.write('\n');
     }
 
     @Override
     public void record(long step, List<Agent> agents) throws Exception {
+        if (step % sampleEvery != 0) return;
         double time = step * timeQuantumSeconds;
         StringBuilder builder = new StringBuilder();
         for (int id = 0; id < agents.size(); ++id) {

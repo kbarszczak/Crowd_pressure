@@ -27,9 +27,10 @@ public class BatchRunner {
     private static final double SCALE_COEFFICIENT = 1000.0;
     private static final double DESTINATION_RADIUS = 3.0;
     private static final double DELAY_MS = 50.0;
-    private static final int MAX_STEPS = 6000;
+    private static final int MAX_STEPS = 2500;
+    private static final int DETAIL_SAMPLE_EVERY = 5;
 
-    private static final int[] AGENT_COUNTS = {25, 50, 100, 150, 200};
+    private static final int[] AGENT_COUNTS = {25, 50, 75, 100, 150};
     private static final int REPETITIONS = 3;
     private static final String[] MAPS = {"Map1", "Map7"};
     private static final String[] SCENARIOS = {"none", "both"};
@@ -64,14 +65,15 @@ public class BatchRunner {
                 agentInitializer(map)
         );
 
-        boolean detailed = rep == 0 && agentCount == 150;
+        boolean detailed = rep == 0 && agentCount == 150 && scenario.equals("both");
         if (detailed) {
             String name = map + "_" + scenario + "_n" + agentCount + "_rep" + rep + ".csv";
-            simulation.setRecorder(new CsvStepRecorder(detailDir.resolve(name), DELAY_MS));
+            simulation.setRecorder(new CsvStepRecorder(detailDir.resolve(name), DELAY_MS, DETAIL_SAMPLE_EVERY));
         }
 
         RunStats stats = simulate(simulation);
         writeSummaryRow(summary, map, scenario, agentCount, rep, stats);
+        summary.flush();
         simulation.close();
         System.out.printf("done: %s %s n=%d rep=%d -> evac %d/%d in %.1fs%n",
                 map, scenario, agentCount, rep, stats.evacuated(), stats.total(), stats.evacTimeSeconds());
