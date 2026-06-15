@@ -65,7 +65,6 @@ public class SimpleSimulationDrawer implements SimulationDrawer{
     private Color getColor(Agent agent){
         maxObservedPressure = Math.max(maxObservedPressure, agent.getPressure());
         double ratio = Math.min(1.0, agent.getPressure() / maxObservedPressure);
-        double hue = (1 - ratio) * 120; // 120 = green (calm), 0 = red (high pressure)
-        return Color.hsb(hue, 0.85, 0.9);
+        return agent.getColor().interpolate(Color.RED, ratio); // group color when calm, red under high pressure
     }
 }
